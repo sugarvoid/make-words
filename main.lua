@@ -2,7 +2,7 @@
 
 require "scripts.load_media"
 
-local font = love.graphics.newFont("Blazma-Regular.ttf", 64)
+local font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
 local text = ""
 local debug =""
 local utf8 = require("utf8")
@@ -20,6 +20,7 @@ function love.load()
     love.graphics.setFont(font)
     love.keyboard.setKeyRepeat(true)
     love.mouse.setVisible(false)
+    sounds = load_sounds()
 end
 
 
@@ -27,6 +28,7 @@ end
 function love.textinput(t)
     if (t:match("%a+")) then
         text = text .. t
+        playSound(sounds.click)
     end
 end
 
@@ -36,9 +38,13 @@ function love.keypressed(key)
         local byteoffset = utf8.offset(text, -1)
 
         if byteoffset then
-            -- remove the last UTF-8 character.
-            -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
-            text = string.sub(text, 1, byteoffset - 1)
+            if string.len(text) > 1 
+                then
+                -- remove the last UTF-8 character.
+                -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
+                text = string.sub(text, 1, byteoffset - 1)
+                playSound(sounds.erase)
+                end
         end
     end
     if key == "return" and text ~= "" then
@@ -73,7 +79,7 @@ function add_word_to_list(word)
 end
 
 function clear_current_word()
-    text = ""
+    text = string.sub(text, -1)
 end 
 
 
@@ -91,4 +97,9 @@ end
 function getRandomLetter()
     math.randomseed(os.clock()^5)
     return string.char(math.random(65, 65 + 25)):lower()
+end
+
+function playSound(sound)
+    love.audio.stop(sound)
+    love.audio.play(sound)
 end

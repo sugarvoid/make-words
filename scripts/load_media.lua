@@ -1,11 +1,12 @@
 --load_media.lua
 
-function load_media()
+function load_sounds()
   local Sounds = {}
-  Sounds.click = love.audio.newSource("sound/Sound/02.wav", "static")
-  Sounds.correct = love.audio.newSource("sound/Sound/01.wav", "static")
-  Sounds.invaild = love.audio.newSource("sound/Sound/01.wav", "static")
-  Sounds.level_up = love.audio.newSource("sound/Sound/01.wav", "static")
-  local cursor_s = love.graphics.newImage("Media/Image/cursor.png")
-  return Sounds, cursor_s
+  Sounds.click = love.audio.newSource("sound/click.wav", "static")
+  Sounds.correct = love.audio.newSource("sound/correct.wav", "static")
+  Sounds.invaild = love.audio.newSource("sound/invaild.wav", "static")
+  Sounds.level_up = love.audio.newSource("sound/level_up.wav", "static")
+  Sounds.erase = love.audio.newSource("sound/erase.wav", "static")
+  --local cursor_s = love.graphics.newImage("Media/Image/cursor.png")
+  return Sounds
 end
