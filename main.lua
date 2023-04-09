@@ -7,6 +7,8 @@ local text = ""
 local debug =""
 local utf8 = require("utf8")
 local word_history = {}
+local lettersToIgnore = {'x', 'q', 'u', 'z', 'w'}
+
 
 
 local screenWidth, screenHeight = love.graphics.getDimensions()
@@ -73,3 +75,20 @@ end
 function clear_current_word()
     text = ""
 end 
+
+
+local function has_value (tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
+
+
+function getRandomLetter()
+    math.randomseed(os.clock()^5)
+    return string.char(math.random(65, 65 + 25)):lower()
+end
