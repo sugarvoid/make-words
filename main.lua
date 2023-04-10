@@ -6,7 +6,7 @@ local font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
 local text = ""
 local debug =""
 local utf8 = require("utf8")
-local word_history = {}
+local word_history
 local lettersToIgnore = {'x', 'q', 'u', 'z', 'w'}
 
 
@@ -16,6 +16,7 @@ local width, height = love.graphics.getDimensions()
 
 
 function love.load()
+    word_history = {}
     font:setFilter("nearest")
     love.graphics.setFont(font)
     love.keyboard.setKeyRepeat(true)
@@ -50,6 +51,7 @@ function love.keypressed(key)
     if key == "return" and text ~= "" then
         debug = "enter func"
         --play ding sound
+        playSound(sounds.correct)
         add_word_to_list(text)
         
     end
