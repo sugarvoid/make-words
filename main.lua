@@ -13,6 +13,7 @@ local lettersToIgnore = {'x', 'q', 'u', 'z', 'w'}
 local sounds
 local score = 104
 local negative_multipler = 1
+local typedWords = {}
 
 
 local screenWidth, screenHeight = love.graphics.getDimensions()
@@ -116,6 +117,7 @@ function checkWord(word)
     end
 
     if inList == true then
+        -- TODO: Check if word is in the typedWords table
         -- Word good
         playSound(sounds.correct)
         word_was_good(word)
@@ -141,3 +143,26 @@ end
 function clamp(min, val, max)
     return math.max(min, math.min(val, max));
 end
+
+
+
+function addWordToScreen(x, y, speed)
+    word = {xPos = x,
+            yPos = y,
+            width,
+            height,
+            speed=speed
+        }
+    table.insert(typedWords, word)
+  end
+
+
+  function updateWordPos(dt)
+    for index, word in ipairs(typedWords) do
+      word.xPos = word.xPos + dt * word.speed
+      if word.xPos > love.graphics.getHeight() then
+        table.remove(typedWords, index)
+      end
+    end
+  end
+  
