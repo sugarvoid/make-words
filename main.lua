@@ -11,7 +11,7 @@ local utf8 = require("utf8")
 local word_history
 local lettersToIgnore = {'x', 'q', 'u', 'z', 'w'}
 local sounds
-local score = 104
+local score = 0
 local negative_multipler = 1
 local typedWords = {}
 
@@ -79,7 +79,8 @@ end
 
 function word_was_good(word)
     -- add word to list
-    score = score + 1
+    score = score + getWordValue(word)
+    debug = getWordValue(word)
     table.insert(word_history, word)
     text = string.sub(text, -1)
 end
@@ -166,3 +167,17 @@ function addWordToScreen(x, y, speed)
     end
   end
   
+
+  function getWordValue(word)
+    local num = 0
+    for i = 1, #word do
+        local char = string.sub(#word, i, i)
+        num = num + getLetterValue(char)
+      end
+    return num
+  end
+
+  function getLetterValue(letter)
+    local _num = 1
+    return _num
+  end 
