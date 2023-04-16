@@ -5,15 +5,16 @@ require("scripts.load_media")
 
 
 local font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
-local text = ""
-local debug =""
+local text
+local debug = ""
 local utf8 = require("utf8")
 local word_history
 local lettersToIgnore = {'x', 'q', 'u', 'z', 'w'}
 local sounds
-local score = 0
+local score
 local negative_multipler = 1
 local typedWords = {}
+local gamestate
 
 
 local screenWidth, screenHeight = love.graphics.getDimensions()
@@ -21,6 +22,9 @@ local width, height = love.graphics.getDimensions()
 
 
 function love.load()
+    gamestate = "menu"
+    score = 0
+    text = ""
     word_history = {}
     font:setFilter("nearest")
     love.graphics.setFont(font)
@@ -28,7 +32,6 @@ function love.load()
     -- love.mouse.setVisible(false)
     sounds = load_sounds()
 end
-
 
 
 function love.textinput(t)
@@ -39,42 +42,97 @@ function love.textinput(t)
 end
 
 function love.keypressed(key)
-    if key == "backspace" then
-        -- get the byte offset to the last UTF-8 character in the string.
-        local byteoffset = utf8.offset(text, -1)
 
-        if byteoffset then
-            if string.len(text) > 1 then
-                -- remove the last UTF-8 character.
-                -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
-                text = string.sub(text, 1, byteoffset - 1)
-                playSound(sounds.erase)
-            end
+    if gamestate == "menu" then
+        if key == "space" then
+            gamestate = "game"
         end
     end
 
-    if key == "return" and text ~= "" then
-        checkWord(text)
-        
+    if gamestate == "gameover" then
+        if key == "r" then
+            love.load()
+        end
     end
-    if key == "escape" then
-        love.event.quit()
+
+
+    if gamestate == "game" then
+        if key == "backspace" then
+            -- get the byte offset to the last UTF-8 character in the string.
+            local byteoffset = utf8.offset(text, -1)
+
+            if byteoffset then
+                if string.len(text) > 1 then
+                    -- remove the last UTF-8 character.
+                    -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
+                    text = string.sub(text, 1, byteoffset - 1)
+                    playSound(sounds.erase)
+                end
+            end
+        end
+
+        if key == "return" and text ~= "" then
+            checkWord(text)
+            
+        end
+
+        if key == "escape" then
+            love.event.quit()
+        end
     end
 end
 
 
 function love.update(dt)
+    debug = gamestate
+end
+
+function update_menu()
+    return
+end
+
+function update_game()
+    return
+end
+
+function update_gameover()
     return
 end
 
 
 function love.draw()
     love.graphics.print(debug, 10, 0)
+    if gamestate == "menu" then
+        draw_menu()
+    end
+    if gamestate == "game" then
+        draw_game()
+    end
+    if gamestate == "gameover" then
+        draw_gameover()
+    end
+end
+
+
+--#region Draw Functions
+function draw_menu()
+    love.graphics.printf("press space", 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
+end
+
+function draw_game()
+    
     love.graphics.print(score, 10, 52)
     --love.graphics.setFont(font)
     --love.graphics.print("Hello set font", 20, 20)
     love.graphics.printf(text, 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
 end
+
+function draw_gameover()
+    love.graphics.printf("game over", 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
+end
+
+
+--#endregion Draw Functions
 
 
 function word_was_good(word)
@@ -108,23 +166,32 @@ end
 
 
 function checkWord(word)
-    local inList
+    local valid_word
+    local is_repeat
+    
 
     for line in love.filesystem.lines("data/wordlist.txt") do
         if line == word then
-            inList = true
+            valid_word = true
             break
         end
     end
 
-    if inList == true then
+    if valid_word == true then
         -- TODO: Check if word is in the typedWords table
-        -- Word good
-        playSound(sounds.correct)
-        word_was_good(word)
+        is_repeat = has_value(word_history, word)
+        if is_repeat == false then
+            -- Word good
+            playSound(sounds.correct)
+            word_was_good(word)
+        else
+            -- Used reapet word 
+            playSound(sounds.invalid)
+        end
     else
         -- Word was bad
         playSound(sounds.invalid)
+        gamestate = "gameover"
         score = clamp(0, (score - (1 * negative_multipler)), 900)
         negative_multipler = negative_multipler + 1
         text = ""
