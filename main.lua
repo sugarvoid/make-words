@@ -1,7 +1,6 @@
 --main.lua
 
-require("scripts.load_media")
-
+require("scripts.load_sounds")
 
 
 local font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
@@ -9,12 +8,12 @@ local text
 local debug = ""
 local utf8 = require("utf8")
 local word_history
-local lettersToIgnore = {'x', 'q', 'u', 'z', 'w'}
+local lettersToIgnore = {'x', 'q', 'u', 'z', 'w', 'y', 'i'} -- For starting letter 
 local sounds
 local score
 local negative_multipler = 1
 local typedWords = {}
-local gamestate
+local gamestate -- 0 = menu, 1 = game, 2 = gameover
 
 
 local screenWidth, screenHeight = love.graphics.getDimensions()
@@ -22,9 +21,10 @@ local width, height = love.graphics.getDimensions()
 
 
 function love.load()
-    gamestate = "menu"
+    math.randomseed(os.time()) -- Insures the first letter is random
+    gamestate = 0
     score = 0
-    text = ""
+    text = getFirstLetter()
     word_history = {}
     font:setFilter("nearest")
     love.graphics.setFont(font)
@@ -34,29 +34,41 @@ function love.load()
 end
 
 
+function getFirstLetter()
+    local _letter = "z"
+
+    while has_value(lettersToIgnore, _letter) == true do
+        _letter = string.char(math.random(97,122))
+    end
+
+    return _letter
+end
+
 function love.textinput(t)
-    if (t:match("%a+")) then
-        text = text .. t
-        playSound(sounds.click)
+    if gamestate == 1 then
+        if (t:match("%a+")) then
+            text = text .. t
+            playSound(sounds.click)
+        end
     end
 end
 
 function love.keypressed(key)
 
-    if gamestate == "menu" then
+    if gamestate == 0 then
         if key == "space" then
-            gamestate = "game"
+            gamestate = 1
         end
     end
 
-    if gamestate == "gameover" then
+    if gamestate == 2 then
         if key == "r" then
             love.load()
         end
     end
 
 
-    if gamestate == "game" then
+    if gamestate == 1 then
         if key == "backspace" then
             -- get the byte offset to the last UTF-8 character in the string.
             local byteoffset = utf8.offset(text, -1)
@@ -99,16 +111,19 @@ function update_gameover()
     return
 end
 
+function moveWordsUpward()
+    return
+end
 
 function love.draw()
     love.graphics.print(debug, 10, 0)
-    if gamestate == "menu" then
+    if gamestate == 0 then
         draw_menu()
     end
-    if gamestate == "game" then
+    if gamestate == 1 then
         draw_game()
     end
-    if gamestate == "gameover" then
+    if gamestate == 2 then
         draw_gameover()
     end
 end
@@ -128,7 +143,7 @@ function draw_game()
 end
 
 function draw_gameover()
-    love.graphics.printf("game over", 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
+    love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screenWidth, "center")
 end
 
 
@@ -191,7 +206,8 @@ function checkWord(word)
     else
         -- Word was bad
         playSound(sounds.invalid)
-        gamestate = "gameover"
+        gamestate = 2
+        saveWordsToTxt()
         score = clamp(0, (score - (1 * negative_multipler)), 900)
         negative_multipler = negative_multipler + 1
         text = ""
@@ -199,7 +215,14 @@ function checkWord(word)
 end
 
 function saveWordsToTxt()
-    return
+    local f = love.filesystem.newFile("Test.txt")
+    f:open("w")
+
+    for k,v in ipairs(word_history) do
+        f:write((v..'\n'))
+    end
+
+    f:close()
 end
 
 ---
