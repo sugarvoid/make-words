@@ -14,8 +14,6 @@ local score
 local negative_multipler = 1
 local typedWords = {}
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
-
-
 local screenWidth, screenHeight = love.graphics.getDimensions()
 local width, height = love.graphics.getDimensions()
 
@@ -85,7 +83,6 @@ function love.keypressed(key)
 
         if key == "return" and text ~= "" then
             checkWord(text)
-            
         end
 
         if key == "escape" then
@@ -134,13 +131,12 @@ function draw_menu()
     love.graphics.printf("press space", 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
 end
 
+
 function draw_game()
-    
     love.graphics.print(score, 10, 52)
-    --love.graphics.setFont(font)
-    --love.graphics.print("Hello set font", 20, 20)
     love.graphics.printf(text, 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
 end
+
 
 function draw_gameover()
     love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screenWidth, "center")
@@ -151,9 +147,9 @@ end
 
 
 function word_was_good(word)
-    -- add word to list
     score = score + getWordValue(word)
     debug = getWordValue(word)
+    -- Add word to list
     table.insert(word_history, word)
     text = string.sub(text, -1)
 end
@@ -174,6 +170,7 @@ function getRandomLetter()
     return string.char(math.random(65, 65 + 25)):lower()
 end
 
+
 function playSound(sound)
     love.audio.stop(sound)
     love.audio.play(sound)
@@ -181,21 +178,20 @@ end
 
 
 function checkWord(word)
-    local valid_word
-    local is_repeat
-    
+    local _valid_word
+    local _is_repeat
 
     for line in love.filesystem.lines("data/wordlist.txt") do
         if line == word then
-            valid_word = true
+            _valid_word = true
             break
         end
     end
 
-    if valid_word == true then
+    if _valid_word == true then
         -- TODO: Check if word is in the typedWords table
-        is_repeat = has_value(word_history, word)
-        if is_repeat == false then
+        _is_repeat = has_value(word_history, word)
+        if _is_repeat == false then
             -- Word good
             playSound(sounds.correct)
             word_was_good(word)
@@ -213,6 +209,7 @@ function checkWord(word)
         text = ""
     end
 end
+
 
 function saveWordsToTxt()
     local f = love.filesystem.newFile("Test.txt")
@@ -236,7 +233,6 @@ function clamp(min, val, max)
 end
 
 
-
 function addWordToScreen(x, y, speed)
     word = {xPos = x,
             yPos = y,
@@ -256,7 +252,7 @@ function addWordToScreen(x, y, speed)
       end
     end
   end
-  
+
 
   function getWordValue(word)
     local num = 0
@@ -267,7 +263,8 @@ function addWordToScreen(x, y, speed)
     return num
   end
 
+
   function getLetterValue(letter)
     local _num = 1
     return _num
-  end 
+  end
