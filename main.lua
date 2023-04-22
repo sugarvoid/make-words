@@ -16,12 +16,19 @@ local typedWords = {}
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local screenWidth, screenHeight = love.graphics.getDimensions()
 local width, height = love.graphics.getDimensions()
-local time_left = 5
+local time_left
 local MAX_TIME = 10
+local lives
+local MAX_LIVES = 3
+
+local YELLOW = love.math.colorFromBytes(255, 191, 64)
 
 
 function love.load()
+    love.graphics.setBackgroundColor(love.math.colorFromBytes(20, 75, 102))
     math.randomseed(os.time()) -- Insures the first letter is random
+    time_left = MAX_TIME
+    lives = MAX_LIVES
     gamestate = 0
     score = 0
     text = getFirstLetter()
@@ -96,14 +103,18 @@ end
 
 function love.update(dt)
     debug = gamestate
+    update_game(dt)
 end
 
 function update_menu()
     return
 end
 
-function update_game()
-    return
+function update_game(dt)
+    if time_left <= 0 then
+        gamestate = 2
+    end
+    time_left = time_left - dt
 end
 
 function update_gameover()
@@ -138,6 +149,7 @@ function draw_game()
     love.graphics.print(score, 10, 52)
     love.graphics.printf(text, 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
     draw_timer()
+    draw_lives(lives)
 end
 
 
@@ -148,11 +160,37 @@ end
 function draw_timer()
     local sx,sy = 150,500
     local c = time_left
-    local color = {2-2*c,2*c,0} -- red by 0 and green by 1
+    local color = {2-2 * c, 2*c, 0} -- red by 0 and green by 1
     love.graphics.setColor(color)
     love.graphics.rectangle('fill', sx, sy, time_left * 50, 40)
     love.graphics.setColor(1,1,1)
     love.graphics.rectangle('line', sx, sy, MAX_TIME * 50, 40)
+end
+
+function draw_lives(lives)
+    love.graphics.setColor(love.math.colorFromBytes(255, 191, 64))
+    if lives == 3 then
+        draw_life_1()
+        draw_life_2()
+        draw_life_3()
+    elseif lives == 2 then
+        draw_life_1()
+        draw_life_2()
+    else
+        draw_life_1()
+    end
+end
+
+function draw_life_1()
+    love.graphics.rectangle("fill", 300,10, 20, 20)
+end
+
+function draw_life_2()
+    love.graphics.rectangle("fill", 340,10, 20, 20)
+end
+
+function draw_life_3()
+    love.graphics.rectangle("fill", 380,10, 20, 20)
 end
 
 --#endregion Draw Functions
@@ -160,6 +198,7 @@ end
 
 function word_was_good(word)
     score = score + getWordValue(word)
+    time_left = MAX_TIME
     debug = getWordValue(word)
     -- Add word to list
     table.insert(word_history, word)
@@ -209,7 +248,11 @@ function checkWord(word)
             word_was_good(word)
         else
             -- Used reapet word 
+            lives = lives - 1
+            -- TODO: Remove all but first letter
+            text = string.sub(text, 1, 1)
             playSound(sounds.invalid)
+            check_lives()
         end
     else
         -- Word was bad
@@ -222,6 +265,11 @@ function checkWord(word)
     end
 end
 
+function check_lives()
+    if lives <= 0 then
+        gamestate = 2
+    end
+end
 
 function saveWordsToTxt()
     local f = love.filesystem.newFile("Test.txt")
