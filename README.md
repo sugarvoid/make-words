@@ -1,6 +1,6 @@
-# love-typing
+# Love Typing
 
-A remake of typing game I came across. Using it as an exercise to learn love2D.
+A remake of typing game I came across itch. Using it as an exercise to learn the [Love2D](https://love2d.org/) framework.
 
 Original game [link](https://mantequilla525.itch.io/word-chain)
 
