@@ -16,6 +16,8 @@ local typedWords = {}
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local screenWidth, screenHeight = love.graphics.getDimensions()
 local width, height = love.graphics.getDimensions()
+local time_left = 5
+local MAX_TIME = 10
 
 
 function love.load()
@@ -135,6 +137,7 @@ end
 function draw_game()
     love.graphics.print(score, 10, 52)
     love.graphics.printf(text, 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
+    draw_timer()
 end
 
 
@@ -142,6 +145,15 @@ function draw_gameover()
     love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screenWidth, "center")
 end
 
+function draw_timer()
+    local sx,sy = 150,500
+    local c = time_left
+    local color = {2-2*c,2*c,0} -- red by 0 and green by 1
+    love.graphics.setColor(color)
+    love.graphics.rectangle('fill', sx, sy, time_left * 50, 40)
+    love.graphics.setColor(1,1,1)
+    love.graphics.rectangle('line', sx, sy, MAX_TIME * 50, 40)
+end
 
 --#endregion Draw Functions
 
