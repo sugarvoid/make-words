@@ -14,6 +14,10 @@ A clone of typing game I came across itch. Using it as an exercise to learn the 
 ### Music 
 - Thinking And Tinkering by [Fablefly Music](https://fablefly-music.itch.io/)
 
+### Sound FX
+- Voiceover Pack #1 by Kenney Vleugels is licensed under [Creative Commons Zero, CC0](http://creativecommons.org/publicdomain/zero/1.0/)
+- Interface Sounds by Kenney Vleugels is licensed under [Creative Commons Zero, CC0](http://creativecommons.org/publicdomain/zero/1.0/)
+
 ### Color Palette
 - [RGR Proto 16](https://lospec.com/palette-list/rgr-proto16)
 
