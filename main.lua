@@ -3,7 +3,8 @@
 require("scripts.load_sounds")
 
 
-local font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
+-- local font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
+local font = love.graphics.newFont("font/ZeroCool.ttf", 64)
 local text
 local debug = ""
 local utf8 = require("utf8")
@@ -11,6 +12,7 @@ local word_history
 local lettersToIgnore = {'x', 'q', 'u', 'z', 'w', 'y', 'i'} -- For starting letter 
 local sounds
 local score
+local entered_words
 local negative_multipler = 1
 local typedWords = {}
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
@@ -27,6 +29,7 @@ local YELLOW = love.math.colorFromBytes(255, 191, 64)
 function love.load()
     love.graphics.setBackgroundColor(love.math.colorFromBytes(20, 75, 102))
     math.randomseed(os.time()) -- Insures the first letter is random
+    entered_words = 0 
     time_left = MAX_TIME
     lives = MAX_LIVES
     gamestate = 0
@@ -103,7 +106,13 @@ end
 
 function love.update(dt)
     debug = gamestate
-    update_game(dt)
+    if gamestate == 0 then
+        update_menu()
+    elseif gamestate == 1 then
+        update_game(dt)
+    else
+        update_gameover(dt)
+    end
 end
 
 function update_menu()
@@ -111,10 +120,12 @@ function update_menu()
 end
 
 function update_game(dt)
-    if time_left <= 0 then
-        gamestate = 2
+    if entered_words > 4 then
+        if time_left <= 0 then
+            gamestate = 2
+        end
+        time_left = time_left - dt
     end
-    time_left = time_left - dt
 end
 
 function update_gameover()
@@ -155,6 +166,7 @@ end
 
 function draw_gameover()
     love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screenWidth, "center")
+    love.graphics.printf("Press R to Restart", 0, 200 - font:getHeight() / 2, screenWidth, "center")
 end
 
 function draw_timer()
@@ -197,6 +209,7 @@ end
 
 
 function word_was_good(word)
+    entered_words = entered_words + 1
     score = score + getWordValue(word)
     time_left = MAX_TIME
     debug = getWordValue(word)
