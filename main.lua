@@ -93,7 +93,7 @@ function love.keypressed(key)
             end
         end
 
-        if key == "return" and text ~= "" then
+        if key == "return" and text ~= "" and string.len(text) >= 2 then
             checkWord(text)
         end
 
