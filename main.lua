@@ -2,14 +2,13 @@
 
 require("scripts.load_sounds")
 
-
--- local font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
-local font = love.graphics.newFont("font/ZeroCool.ttf", 64)
+local music
+local font
 local text
 local debug = ""
 local utf8 = require("utf8")
 local word_history
-local lettersToIgnore = {'x', 'q', 'u', 'z', 'w', 'y', 'i'} -- For starting letter 
+local lettersToIgnore = {'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v'} -- For starting letter 
 local sounds
 local score
 local entered_words
@@ -27,6 +26,8 @@ local YELLOW = love.math.colorFromBytes(255, 191, 64)
 
 
 function love.load()
+    font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
+    music = love.audio.newSource("sound/thinking_and_tinkering.ogg", "stream")
     love.graphics.setBackgroundColor(love.math.colorFromBytes(20, 75, 102))
     math.randomseed(os.time()) -- Insures the first letter is random
     entered_words = 0 
@@ -120,6 +121,11 @@ function update_menu()
 end
 
 function update_game(dt)
+
+    if not music:isPlaying() then
+        love.audio.play(music)
+    end
+
     if entered_words > 4 then
         if time_left <= 0 then
             gamestate = 2
@@ -129,7 +135,9 @@ function update_game(dt)
 end
 
 function update_gameover()
-    return
+    if music:isPlaying() then
+        love.audio.stop(music)
+    end
 end
 
 function moveWordsUpward()
