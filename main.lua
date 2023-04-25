@@ -1,6 +1,8 @@
---main.lua
+--! main.lua
 
 require("scripts.load_sounds")
+require("lib.word")
+
 
 local music
 local font
@@ -14,6 +16,7 @@ local score
 local entered_words
 local negative_multipler = 1
 local typedWords = {}
+local scroll_words = {}
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local screenWidth, screenHeight = love.graphics.getDimensions()
 local width, height = love.graphics.getDimensions()
@@ -66,6 +69,10 @@ end
 
 function love.keypressed(key)
 
+    if key == "escape" then
+            love.event.quit()
+        end
+
     if gamestate == 0 then
         if key == "space" then
             gamestate = 1
@@ -98,9 +105,7 @@ function love.keypressed(key)
             checkWord(text)
         end
 
-        if key == "escape" then
-            love.event.quit()
-        end
+        
     end
 end
 
@@ -134,15 +139,17 @@ function update_game(dt)
     end
 end
 
-function update_gameover()
+function update_gameover(dt)
     if music:isPlaying() then
         love.audio.stop(music)
     end
+
+    for index, word in ipairs(scroll_words) do
+        
+        word:update(dt)
+    end
 end
 
-function moveWordsUpward()
-    return
-end
 
 function love.draw()
     love.graphics.print(debug, 10, 0)
@@ -175,11 +182,18 @@ end
 function draw_gameover()
     love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screenWidth, "center")
     love.graphics.printf("Press R to Restart", 0, 200 - font:getHeight() / 2, screenWidth, "center")
+    for index, word in ipairs(scroll_words) do
+        if word.yPos < (love.graphics.getHeight() - 20) then
+            word:draw()
+        end
+        
+    end
 end
 
 function draw_timer()
     local sx,sy = 150,500
     local c = time_left
+    -- TODO: Change color to fit rest of game
     local color = {2-2 * c, 2*c, 0} -- red by 0 and green by 1
     love.graphics.setColor(color)
     love.graphics.rectangle('fill', sx, sy, time_left * 50, 40)
@@ -278,7 +292,7 @@ function checkWord(word)
     else
         -- Word was bad
         playSound(sounds.invalid)
-        gamestate = 2
+        goTOGameOver()
         saveWordsToTxt()
         score = clamp(0, (score - (1 * negative_multipler)), 900)
         negative_multipler = negative_multipler + 1
@@ -288,9 +302,20 @@ end
 
 function check_lives()
     if lives <= 0 then
-        gamestate = 2
+        goTOGameOver()
     end
 end
+
+function goTOGameOver()
+    gamestate = 2
+    local _yPos = 620
+    ----scroll_words = typedWords
+    for index, word in ipairs(word_history) do
+        local _word = Word:new(word, _yPos)
+        table.insert(scroll_words, _word)
+        _yPos = _yPos + 50
+      end
+    end
 
 function saveWordsToTxt()
     local f = love.filesystem.newFile("Test.txt")
@@ -328,7 +353,7 @@ function addWordToScreen(x, y, speed)
   function updateWordPos(dt)
     for index, word in ipairs(typedWords) do
       word.xPos = word.xPos + dt * word.speed
-      if word.xPos > love.graphics.getHeight() then
+      if word.xPos > (love.graphics.getHeight() - 20) then
         table.remove(typedWords, index)
       end
     end
