@@ -1,6 +1,6 @@
 --! main.lua
 
-require("scripts.load_sounds")
+require("utils.man_sound")
 require("lib.word")
 
 
@@ -32,7 +32,7 @@ function love.load()
     font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
     music = love.audio.newSource("sound/thinking_and_tinkering.ogg", "stream")
     love.graphics.setBackgroundColor(love.math.colorFromBytes(20, 75, 102))
-    math.randomseed(os.time()) -- Insures the first letter is random
+    math.randomseed(os.time()) -- Insures the first letter is random each time
     entered_words = 0 
     time_left = MAX_TIME
     lives = MAX_LIVES
@@ -43,7 +43,7 @@ function love.load()
     font:setFilter("nearest")
     love.graphics.setFont(font)
     love.keyboard.setKeyRepeat(true)
-    -- love.mouse.setVisible(false)
+    love.mouse.setVisible(false)
     sounds = load_sounds()
 end
 
