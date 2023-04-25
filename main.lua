@@ -43,7 +43,7 @@ function love.load()
     font:setFilter("nearest")
     love.graphics.setFont(font)
     love.keyboard.setKeyRepeat(true)
-    love.mouse.setVisible(false)
+    -- love.mouse.setVisible(false)
     sounds = load_sounds()
 end
 
@@ -180,14 +180,19 @@ end
 
 
 function draw_gameover()
-    love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screenWidth, "center")
-    love.graphics.printf("Press R to Restart", 0, 200 - font:getHeight() / 2, screenWidth, "center")
+    love.graphics.setColor(love.math.colorFromBytes(255, 191, 64))
     for index, word in ipairs(scroll_words) do
         if word.yPos < (love.graphics.getHeight() - 20) then
             word:draw()
         end
-        
     end
+    love.graphics.setColor(love.math.colorFromBytes(20, 75, 102))
+    love.graphics.rectangle("fill", 0 ,0 , 800, 250)
+    love.graphics.setColor(love.math.colorFromBytes(255, 191, 64))
+
+    love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screenWidth, "center")
+    love.graphics.printf("Press R to Restart", 0, 200 - font:getHeight() / 2, screenWidth, "center")
+    
 end
 
 
