@@ -190,6 +190,7 @@ function draw_gameover()
     end
 end
 
+
 function draw_timer()
     local sx,sy = 150,500
     local c = time_left
@@ -200,6 +201,7 @@ function draw_timer()
     love.graphics.setColor(1,1,1)
     love.graphics.rectangle('line', sx, sy, MAX_TIME * 50, 40)
 end
+
 
 function draw_lives(lives)
     love.graphics.setColor(love.math.colorFromBytes(255, 191, 64))
@@ -215,17 +217,21 @@ function draw_lives(lives)
     end
 end
 
+
 function draw_life_1()
     love.graphics.rectangle("fill", 300,10, 20, 20)
 end
+
 
 function draw_life_2()
     love.graphics.rectangle("fill", 340,10, 20, 20)
 end
 
+
 function draw_life_3()
     love.graphics.rectangle("fill", 380,10, 20, 20)
 end
+
 
 --#endregion Draw Functions
 
@@ -300,11 +306,13 @@ function checkWord(word)
     end
 end
 
+
 function check_lives()
     if lives <= 0 then
         goTOGameOver()
     end
 end
+
 
 function goTOGameOver()
     gamestate = 2
@@ -314,8 +322,8 @@ function goTOGameOver()
         local _word = Word:new(word, _yPos)
         table.insert(scroll_words, _word)
         _yPos = _yPos + 50
-      end
     end
+end
 
 function saveWordsToTxt()
     local f = love.filesystem.newFile("Test.txt")
@@ -350,27 +358,27 @@ function addWordToScreen(x, y, speed)
   end
 
 
-  function updateWordPos(dt)
+function updateWordPos(dt)
     for index, word in ipairs(typedWords) do
       word.xPos = word.xPos + dt * word.speed
       if word.xPos > (love.graphics.getHeight() - 20) then
         table.remove(typedWords, index)
       end
     end
-  end
+end
 
 
-  function getWordValue(word)
+function getWordValue(word)
     local num = 0
     for i = 1, #word do
         local char = string.sub(#word, i, i)
         num = num + getLetterValue(char)
-      end
+    end
     return num
-  end
+end
 
 
-  function getLetterValue(letter)
+function getLetterValue(letter)
     local _num = 1
     return _num
-  end
+end
