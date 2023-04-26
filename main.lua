@@ -49,7 +49,7 @@ end
 
 
 function getFirstLetter()
-    local _letter = "z"
+    local _letter
 
     while has_value(lettersToIgnore, _letter) == true do
         _letter = string.char(math.random(97,122))
@@ -57,6 +57,7 @@ function getFirstLetter()
 
     return _letter
 end
+
 
 function love.textinput(t)
     if gamestate == 1 then
@@ -66,6 +67,7 @@ function love.textinput(t)
         end
     end
 end
+
 
 function love.keypressed(key)
 
@@ -125,6 +127,7 @@ function update_menu()
     return
 end
 
+
 function update_game(dt)
 
     if not music:isPlaying() then
@@ -138,6 +141,7 @@ function update_game(dt)
         time_left = time_left - dt
     end
 end
+
 
 function update_gameover(dt)
     if music:isPlaying() then
@@ -304,7 +308,6 @@ function checkWord(word)
         -- Word was bad
         playSound(sounds.invalid)
         goTOGameOver()
-        saveWordsToTxt()
         score = clamp(0, (score - (1 * negative_multipler)), 900)
         negative_multipler = negative_multipler + 1
         text = ""
