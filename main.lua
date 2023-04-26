@@ -21,7 +21,7 @@ local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local screenWidth, screenHeight = love.graphics.getDimensions()
 local width, height = love.graphics.getDimensions()
 local time_left
-local MAX_TIME = 12
+local MAX_TIME = 10
 local lives
 local MAX_LIVES = 3
 
@@ -175,7 +175,7 @@ end
 
 
 function draw_game()
-    love.graphics.print(score, 10, 52)
+    love.graphics.print(score, 5, 5)
     love.graphics.printf(text, 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
     draw_timer()
     draw_lives(lives)
