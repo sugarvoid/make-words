@@ -17,10 +17,6 @@ end
 
 function Word:update(dt)
     self.yPos = self.yPos - scroll_speed * dt
-    if self.yPos > (love.graphics.getHeight() - 20) then
-        -- TODO: Find way to remove word from scroll_words table
-        --table.remove(scroll_words, self)
-    end
 end
 
 
