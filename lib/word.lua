@@ -17,6 +17,9 @@ end
 
 function Word:update(dt)
     self.yPos = self.yPos - scroll_speed * dt
+    if self.yPos > (love.graphics.getHeight() - 20) then
+        return
+    end
 end
 
 

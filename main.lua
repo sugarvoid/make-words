@@ -21,7 +21,7 @@ local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local screenWidth, screenHeight = love.graphics.getDimensions()
 local width, height = love.graphics.getDimensions()
 local time_left
-local MAX_TIME = 10
+local MAX_TIME = 12
 local lives
 local MAX_LIVES = 3
 
@@ -49,7 +49,7 @@ end
 
 
 function getFirstLetter()
-    local _letter
+    local _letter = 'z'
 
     while has_value(lettersToIgnore, _letter) == true do
         _letter = string.char(math.random(97,122))
@@ -113,7 +113,6 @@ end
 
 
 function love.update(dt)
-    debug = gamestate
     if gamestate == 0 then
         update_menu()
     elseif gamestate == 1 then
@@ -156,7 +155,7 @@ end
 
 
 function love.draw()
-    love.graphics.print(debug, 10, 0)
+    -- love.graphics.print(debug, 10, 0)
     if gamestate == 0 then
         draw_menu()
     end
@@ -249,7 +248,6 @@ function word_was_good(word)
     entered_words = entered_words + 1
     score = score + getWordValue(word)
     time_left = MAX_TIME
-    debug = getWordValue(word)
     -- Add word to list
     table.insert(word_history, word)
     text = string.sub(text, -1)
