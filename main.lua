@@ -15,8 +15,8 @@ local sounds
 local score
 local entered_words
 local negative_multipler = 1
-local typedWords = {}
-local scroll_words = {}
+--local typedWords = {}
+local scroll_words
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local screenWidth, screenHeight = love.graphics.getDimensions()
 local width, height = love.graphics.getDimensions()
@@ -24,6 +24,12 @@ local time_left
 local MAX_TIME = 10
 local lives
 local MAX_LIVES = 3
+local char_values = {
+    a = 1, b = 3, c = 3, d = 2, e = 1, f = 4, g = 2, h = 4,
+    i = 1, j = 8, k = 5, l = 1, m = 3, n = 1, o = 1, p = 3,
+    q = 10, r = 1, s = 1, t = 1, u = 1, v = 4, w = 4, x = 8,
+    y = 4, z = 10
+  }
 
 local YELLOW = love.math.colorFromBytes(255, 191, 64)
 
@@ -40,6 +46,7 @@ function love.load()
     score = 0
     text = getFirstLetter()
     word_history = {}
+    scroll_words = {}
     font:setFilter("nearest")
     love.graphics.setFont(font)
     love.keyboard.setKeyRepeat(true)
@@ -135,7 +142,7 @@ function update_game(dt)
 
     if entered_words > 4 then
         if time_left <= 0 then
-            gamestate = 2
+            goTOGameOver()
         end
         time_left = time_left - dt
     end
@@ -148,7 +155,6 @@ function update_gameover(dt)
     end
 
     for index, word in ipairs(scroll_words) do
-        
         word:update(dt)
     end
 end
@@ -323,7 +329,6 @@ end
 function goTOGameOver()
     gamestate = 2
     local _yPos = 620
-    ----scroll_words = typedWords
     for index, word in ipairs(word_history) do
         local _word = Word:new(word, _yPos)
         table.insert(scroll_words, _word)
@@ -353,17 +358,6 @@ function clamp(min, val, max)
 end
 
 
-function addWordToScreen(x, y, speed)
-    word = {xPos = x,
-            yPos = y,
-            width,
-            height,
-            speed=speed
-        }
-    table.insert(typedWords, word)
-  end
-
-
 function updateWordPos(dt)
     for index, word in ipairs(typedWords) do
       word.xPos = word.xPos + dt * word.speed
@@ -375,16 +369,13 @@ end
 
 
 function getWordValue(word)
-    local num = 0
+    local value = 0
     for i = 1, #word do
-        local char = string.sub(#word, i, i)
-        num = num + getLetterValue(char)
+        local letter = string.sub(word, i, i)
+        if char_values[letter] ~= nil then
+            value = value + char_values[letter]
+        end
     end
-    return num
+    return value
 end
 
-
-function getLetterValue(letter)
-    local _num = 1
-    return _num
-end
