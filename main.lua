@@ -1,6 +1,7 @@
 --! main.lua
 
 require("utils.man_sound")
+require("utils.man_color")
 require("lib.word")
 
 
@@ -37,7 +38,7 @@ local YELLOW = love.math.colorFromBytes(255, 191, 64)
 function love.load()
     font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
     music = love.audio.newSource("sound/thinking_and_tinkering.ogg", "stream")
-    love.graphics.setBackgroundColor(love.math.colorFromBytes(20, 75, 102))
+    changeBgColor("#144b66")
     math.randomseed(os.time()) -- Insures the first letter is random each time
     entered_words = 0 
     time_left = MAX_TIME
@@ -176,6 +177,8 @@ end
 
 --#region Draw Functions
 function draw_menu()
+    changeFontColor("#ffbf40")
+    --love.graphics.setColor(color("#ffbf40"))
     love.graphics.printf("press space", 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
 end
 
@@ -209,10 +212,10 @@ function draw_timer()
     local sx,sy = 150,500
     local c = time_left
     -- TODO: Change color to fit rest of game
-    local color = {2-2 * c, 2*c, 0} -- red by 0 and green by 1
-    love.graphics.setColor(color)
+    --local color = {2-2 * c, 2*c, 0} -- red by 0 and green by 1
+    love.graphics.setColor(_color("#ffbf40"))
     love.graphics.rectangle('fill', sx, sy, time_left * 50, 40)
-    love.graphics.setColor(1,1,1)
+    love.graphics.setColor(_color("#871e2e"))
     love.graphics.rectangle('line', sx, sy, MAX_TIME * 50, 40)
 end
 
