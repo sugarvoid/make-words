@@ -1,4 +1,4 @@
-# Love Typing
+# Make Words
 
 A clone of typing game I came across itch. Using it as an exercise to learn the [LÖVE](https://love2d.org/) framework. 
 ![](https://github.com/sugarvoid/love-typing/blob/master/promo/gameplay.gif)
