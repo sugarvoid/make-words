@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="630"
+   height="500"
+   viewBox="0 0 166.6875 132.29167"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   sodipodi:docname="make_words_dx.svg"
+   inkscape:export-filename="make_words_dx.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     width="630px"
+     inkscape:zoom="1.0482005"
+     inkscape:cx="277.14163"
+     inkscape:cy="271.41754"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient2"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop7" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop8" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient7"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#202122;stop-opacity:1;"
+         offset="0"
+         id="stop5" />
+      <stop
+         style="stop-color:#ff0028;stop-opacity:1;"
+         offset="1"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#202122;stop-opacity:1;"
+         offset="0"
+         id="stop3" />
+      <stop
+         style="stop-color:#ff0028;stop-opacity:1;"
+         offset="1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient1"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#202122;stop-opacity:1;"
+         offset="0"
+         id="stop1" />
+      <stop
+         style="stop-color:#ff0028;stop-opacity:1;"
+         offset="1"
+         id="stop2" />
+    </linearGradient>
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect1" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7"
+       id="linearGradient3"
+       x1="364.01984"
+       y1="117.53531"
+       x2="370.41583"
+       y2="117.53531"
+       gradientUnits="userSpaceOnUse" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect5" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4"
+       id="linearGradient5"
+       gradientUnits="userSpaceOnUse"
+       x1="364.01984"
+       y1="117.53531"
+       x2="370.41583"
+       y2="117.53531" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect6" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1"
+       id="linearGradient6"
+       gradientUnits="userSpaceOnUse"
+       x1="364.01984"
+       y1="117.53531"
+       x2="370.41583"
+       y2="117.53531" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect7" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect8" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect9" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect10" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect11" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect12" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect13" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect14" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect15" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect16" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect17" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect18" />
+    <rect
+       x="363.83933"
+       y="109.90516"
+       width="88.003925"
+       height="88.173726"
+       id="rect19" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2"
+       id="radialGradient8"
+       cx="370.56945"
+       cy="117.51851"
+       fx="370.56945"
+       fy="117.51851"
+       r="6.9507997"
+       gradientTransform="matrix(1,0,0,0.62519381,0,44.046663)"
+       gradientUnits="userSpaceOnUse" />
+    <rect
+       x="363.83932"
+       y="109.90516"
+       width="88.003922"
+       height="88.173729"
+       id="rect7-0" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     style="display:inline">
+    <rect
+       style="display:inline;fill:#0c0c0c;fill-opacity:1;stroke:#ffffff;stroke-width:3.94528;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3"
+       width="163.0975"
+       height="129.25491"
+       x="2.0633795"
+       y="1.2644293"
+       inkscape:label="rect3" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       transform="matrix(2.4007436,0,0,2.4007436,-852.16256,-252.46171)"
+       id="text1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect1);display:inline;fill:url(#linearGradient3);fill-opacity:1;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan2">Make</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(2.4007436,0,0,2.4007436,-840.1341,-229.05645)"
+       id="text4"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect5);display:inline;fill:url(#linearGradient5);fill-opacity:1;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan3">WORDs</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.1311041,0,0,1.1311041,-303.80592,-95.239383)"
+       id="text5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect6);display:inline;fill:url(#linearGradient6);fill-opacity:1;stroke:none;stroke-width:0.936794;stroke-dasharray:none;stroke-opacity:1"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan4">DX</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-552.96459,-129.2765)"
+       id="text6"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect7);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan5">z</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-579.05754,-146.6752)"
+       id="text6-9"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect7-0);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan6">H</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-668.86024,-104.46922)"
+       id="text8"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect8);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan7">u</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-588.49092,-216.32844)"
+       id="text9"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect9);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan8">n</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-594.50306,-112.31253)"
+       id="text10"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect10);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan9">r</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-686.17035,-200.3248)"
+       id="text11"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect11);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan10">g</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-671.44832,-144.22172)"
+       id="text12"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect12);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan11">e</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-535.29803,-100.73882)"
+       id="text13"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect13);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan12">l</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-534.60788,-203.86626)"
+       id="text14"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect14);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan13">k</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-626.22676,-128.67374)"
+       id="text15"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect15);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan14">a</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-532.10064,-166.88437)"
+       id="text16"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect16);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan15">w</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-652.695,-218.97357)"
+       id="text17"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect17);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan16">D</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-572.65819,-89.237692)"
+       id="text18"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect18);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan17">p</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1.8740759,0,0,1.8740759,-643.43923,-96.164837)"
+       id="text19"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Super Corn';-inkscape-font-specification:'Super Corn, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect19);display:inline;fill:#515355;fill-opacity:0.375954;stroke:none;stroke-width:0.936794;stroke-dasharray:none"><tspan
+         x="363.83984"
+         y="121.23731"
+         id="tspan18">f</tspan></text>
+  </g>
+</svg>

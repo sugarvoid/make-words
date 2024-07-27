@@ -1,7 +1,7 @@
 # Make Words
 
 A clone of typing game I came across itch. Using it as an exercise to learn the [LÖVE](https://love2d.org/) framework. 
-![](https://github.com/sugarvoid/love-typing/blob/master/promo/gameplay.gif)
+![](https://github.com/sugarvoid/make-words/blob/master/promo/gameplay.gif)
 
 ## How To Play
 
@@ -13,17 +13,8 @@ A clone of typing game I came across itch. Using it as an exercise to learn the 
 - [Word Chain](https://mantequilla525.itch.io/word-chain) by [mantequilla525](https://mantequilla525.itch.io/)
 
 ### Font
-- Blazma by [GGBotNet](https://www.ggbot.net/fonts/) is licensed under the SIL Open Font License, Version 1.1.
+- Round9x13 by [Herald](https://he.rald.fr/fonts) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ### Music 
 - Thinking And Tinkering by [Fablefly Music](https://fablefly-music.itch.io/)
-
-### Sound FX
-- Voiceover Pack #1 by Kenney Vleugels is licensed under [Creative Commons Zero, CC0](http://creativecommons.org/publicdomain/zero/1.0/)
-- Interface Sounds by Kenney Vleugels is licensed under [Creative Commons Zero, CC0](http://creativecommons.org/publicdomain/zero/1.0/)
-
-### Color Palette
-- [RGR Proto 16](https://lospec.com/palette-list/rgr-proto16)
-
-
 

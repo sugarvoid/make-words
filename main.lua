@@ -32,13 +32,23 @@ local char_values = {
     y = 4, z = 10
   }
 
+local COLORS = {
+    BLACK = "#000000",
+    GRAY = "#202122",
+    RED = "#ff0028",
+    WHITE = "#ffffff"
+}
+
+
 local YELLOW = love.math.colorFromBytes(255, 191, 64)
 
 
 function love.load()
-    font = love.graphics.newFont("font/Blazma-Regular.ttf", 64)
+    font = love.graphics.newFont("font/Round9x13.ttf", 64)
+    font:setFilter("nearest")
     music = love.audio.newSource("sound/thinking_and_tinkering.ogg", "stream")
-    changeBgColor("#144b66")
+    music:setVolume(0.7)
+    set_background_fron_hex(COLORS.BLACK)
     math.randomseed(os.time()) -- Insures the first letter is random each time
     entered_words = 0 
     time_left = MAX_TIME
@@ -48,7 +58,7 @@ function love.load()
     text = getFirstLetter()
     word_history = {}
     scroll_words = {}
-    font:setFilter("nearest")
+    
     love.graphics.setFont(font)
     love.keyboard.setKeyRepeat(true)
     -- love.mouse.setVisible(false)
@@ -141,7 +151,7 @@ function update_game(dt)
         love.audio.play(music)
     end
 
-    if entered_words > 4 then
+    if entered_words > 3 then
         if time_left <= 0 then
             goTOGameOver()
         end
@@ -175,9 +185,11 @@ function love.draw()
 end
 
 
---#region Draw Functions
+
 function draw_menu()
-    changeFontColor("#ffbf40")
+    set_draw_color_from_hex("#ff0028")
+    --love.graphics.setColor(YELLOW)
+    --changeFontColor("#ffbf40")
     --love.graphics.setColor(color("#ffbf40"))
     love.graphics.printf("press space", 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
 end
@@ -201,10 +213,8 @@ function draw_gameover()
     love.graphics.setColor(love.math.colorFromBytes(20, 75, 102))
     love.graphics.rectangle("fill", 0 ,0 , 800, 250)
     love.graphics.setColor(love.math.colorFromBytes(255, 191, 64))
-
     love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screenWidth, "center")
     love.graphics.printf("Press R to Restart", 0, 200 - font:getHeight() / 2, screenWidth, "center")
-    
 end
 
 
@@ -213,40 +223,22 @@ function draw_timer()
     local c = time_left
     -- TODO: Change color to fit rest of game
     --local color = {2-2 * c, 2*c, 0} -- red by 0 and green by 1
-    love.graphics.setColor(_color("#ffbf40"))
+    love.graphics.setColor(_color("#202122"))
     love.graphics.rectangle('fill', sx, sy, time_left * 50, 40)
-    love.graphics.setColor(_color("#871e2e"))
+    love.graphics.setColor(_color("#ffffff"))
     love.graphics.rectangle('line', sx, sy, MAX_TIME * 50, 40)
 end
 
 
 function draw_lives(lives)
-    love.graphics.setColor(love.math.colorFromBytes(255, 191, 64))
+    love.graphics.setColor(_color("#ffffff")) --love.math.colorFromBytes(255, 191, 64))
 
 
     for a=1,lives do
-        print(a,a*a)
+        --print(a,a*a)
         love.graphics.rectangle("fill", 260 + (40 * a), 10, 20, 20)
     end
 end
-
-
-function draw_life_1()
-    love.graphics.rectangle("fill", 300,10, 20, 20)
-end
-
-
-function draw_life_2()
-    love.graphics.rectangle("fill", 340,10, 20, 20)
-end
-
-
-function draw_life_3()
-    love.graphics.rectangle("fill", 380,10, 20, 20)
-end
-
-
---#endregion Draw Functions
 
 
 function word_was_good(word)
@@ -327,11 +319,11 @@ end
 
 function goTOGameOver()
     gamestate = 2
-    local _yPos = 620
+    local _yPos = 650
     for index, word in ipairs(word_history) do
         local _word = Word:new(word, _yPos)
         table.insert(scroll_words, _word)
-        _yPos = _yPos + 50
+        _yPos = _yPos + 60
     end
 end
 
@@ -372,4 +364,29 @@ function getWordValue(word)
     end
     return value
 end
+
+function set_draw_color_from_hex(rgba)
+--  setColorHEX(rgba)
+--  where rgba is string as "#336699cc"
+    local rb = tonumber(string.sub(rgba, 2, 3), 16) 
+    local gb = tonumber(string.sub(rgba, 4, 5), 16) 
+    local bb = tonumber(string.sub(rgba, 6, 7), 16)
+    local ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
+--  print (rb, gb, bb, ab) -- prints    51  102 153 204
+--  print (love.math.colorFromBytes( rb, gb, bb, ab )) -- prints    0.2 0.4 0.6 0.8
+    love.graphics.setColor (love.math.colorFromBytes( rb, gb, bb, ab ))
+end
+
+function set_background_fron_hex(rgba)
+--  setColorHEX(rgba)
+--  where rgba is string as "#336699cc"
+    local rb = tonumber(string.sub(rgba, 2, 3), 16) 
+    local gb = tonumber(string.sub(rgba, 4, 5), 16) 
+    local bb = tonumber(string.sub(rgba, 6, 7), 16)
+    local ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
+--  print (rb, gb, bb, ab) -- prints    51  102 153 204
+--  print (love.math.colorFromBytes( rb, gb, bb, ab )) -- prints    0.2 0.4 0.6 0.8
+    love.graphics.setBackgroundColor(love.math.colorFromBytes( rb, gb, bb, ab ))
+end
+
 
