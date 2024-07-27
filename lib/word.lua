@@ -1,6 +1,6 @@
 --! word.lua
 
-local screenWidth, screenHeight = love.graphics.getDimensions()
+local screenWidth, _ = love.graphics.getDimensions()
 local scroll_speed = 30
 
 Word = {}
@@ -18,7 +18,7 @@ end
 function Word:update(dt)
     self.yPos = self.yPos - scroll_speed * dt
     if self.yPos > (love.graphics.getHeight() - 20) then
-        return
+       return
     end
 end
 

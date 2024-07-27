@@ -57,7 +57,7 @@ end
 
 
 function getFirstLetter()
-    local _letter = 'z'
+    local _letter = "z"
 
     while has_value(lettersToIgnore, _letter) == true do
         _letter = string.char(math.random(97,122))
@@ -155,7 +155,7 @@ function update_gameover(dt)
         love.audio.stop(music)
     end
 
-    for index, word in ipairs(scroll_words) do
+    for _, word in ipairs(scroll_words) do
         word:update(dt)
     end
 end
@@ -222,15 +222,11 @@ end
 
 function draw_lives(lives)
     love.graphics.setColor(love.math.colorFromBytes(255, 191, 64))
-    if lives == 3 then
-        draw_life_1()
-        draw_life_2()
-        draw_life_3()
-    elseif lives == 2 then
-        draw_life_1()
-        draw_life_2()
-    else
-        draw_life_1()
+
+
+    for a=1,lives do
+        print(a,a*a)
+        love.graphics.rectangle("fill", 260 + (40 * a), 10, 20, 20)
     end
 end
 
@@ -350,12 +346,7 @@ function saveWordsToTxt()
     f:close()
 end
 
----
--- Clamps a value to a certain range.
--- @param min - The minimum value.
--- @param val - The value to clamp.
--- @param max - The maximum value.
---
+
 function clamp(min, val, max)
     return math.max(min, math.min(val, max));
 end
