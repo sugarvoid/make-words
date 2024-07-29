@@ -36,7 +36,7 @@ local COLORS = {
     BLACK = "#000000",
     GRAY = "#202122",
     RED = "#ff0028",
-    WHITE = "#ffffff"
+    WHITE = "#ffffff99"
 }
 
 
@@ -197,6 +197,7 @@ end
 
 function draw_game()
     love.graphics.print(score, 5, 5)
+    set_draw_color_from_hex("#ffffff")
     love.graphics.printf(text, 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
     draw_timer()
     draw_lives(lives)
@@ -223,7 +224,8 @@ function draw_timer()
     local c = time_left
     -- TODO: Change color to fit rest of game
     --local color = {2-2 * c, 2*c, 0} -- red by 0 and green by 1
-    love.graphics.setColor(_color("#202122"))
+    --love.graphics.setColor(_color("#202122"))
+    set_draw_color_from_hex("#202122")
     love.graphics.rectangle('fill', sx, sy, time_left * 50, 40)
     love.graphics.setColor(_color("#ffffff"))
     love.graphics.rectangle('line', sx, sy, MAX_TIME * 50, 40)
