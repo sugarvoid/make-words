@@ -39,7 +39,7 @@ local COLORS = {
     WHITE = "#ffffff99"
 }
 
-
+local time_left_bg = 0
 local YELLOW = love.math.colorFromBytes(255, 191, 64)
 
 
@@ -187,6 +187,7 @@ end
 
 
 function draw_menu()
+
     set_draw_color_from_hex("#ff0028")
     --love.graphics.setColor(YELLOW)
     --changeFontColor("#ffbf40")
@@ -196,8 +197,13 @@ end
 
 
 function draw_game()
-    love.graphics.print(score, 5, 5)
+    set_draw_color_from_hex("#202122")
+    time_left_bg = time_left_bg + time_left / 10
+    love.graphics.rectangle("fill", 0, time_left_bg , 800, 600)
+
     set_draw_color_from_hex("#ffffff")
+    love.graphics.print(score, 5, 5)
+    
     love.graphics.printf(text, 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
     draw_timer()
     draw_lives(lives)
@@ -225,7 +231,7 @@ function draw_timer()
     -- TODO: Change color to fit rest of game
     --local color = {2-2 * c, 2*c, 0} -- red by 0 and green by 1
     --love.graphics.setColor(_color("#202122"))
-    set_draw_color_from_hex("#202122")
+    set_draw_color_from_hex("#ffffff")
     love.graphics.rectangle('fill', sx, sy, time_left * 50, 40)
     love.graphics.setColor(_color("#ffffff"))
     love.graphics.rectangle('line', sx, sy, MAX_TIME * 50, 40)
