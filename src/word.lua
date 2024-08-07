@@ -1,4 +1,3 @@
---! word.lua
 
 local screenWidth, _ = love.graphics.getDimensions()
 local scroll_speed = 30

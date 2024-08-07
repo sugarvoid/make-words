@@ -154,7 +154,7 @@ function love.update(dt)
 end
 
 function update_menu()
-    return
+    
 end
 
 function update_game(dt)
@@ -193,8 +193,9 @@ function love.draw()
 end
 
 function draw_menu()
-    set_draw_color_from_hex("#ff0028")
-    love.graphics.printf("press space", 0, screen_height / 2 - font:getHeight() / 2, screen_width, "center")
+    set_draw_color_from_hex(COLORS.WHITE)
+    love.graphics.print("Make Words", 240, 200, 0, 0.9, 0.9)
+    love.graphics.print("press space", 260, 300, 0, 0.7, 0.7)
 end
 
 function draw_game()
@@ -226,7 +227,7 @@ function draw_gameover()
 end
 
 function draw_lives(lives)
-    set_draw_color_from_hex("#ffffff")
+    set_draw_color_from_hex(COLORS.WHITE)
     for a = 1, lives do
         love.graphics.rectangle("fill", 260 + (40 * a), 10, 20, 20)
     end
@@ -268,7 +269,7 @@ function check_word(word)
     if _valid_word == true then
         _is_repeat = has_value(word_history, word)
         if _is_repeat == false then
-            -- Word good
+            -- Word was good
             play_sound(sounds.correct)
             word_was_good(word)
         else
@@ -301,29 +302,9 @@ function go_to_gameover()
     end
 end
 
--- function save_words_to_txt()
---     local f = love.filesystem.newFile("Test.txt")
---     f:open("w")
-
---     for k, v in ipairs(word_history) do
---         f:write((v .. '\n'))
---     end
-
---     f:close()
--- end
-
 function clamp(min, val, max)
     return math.max(min, math.min(val, max));
 end
-
--- function update_word_pos(dt)
---     for index, word in ipairs(typedWords) do
---         word.xPos = word.xPos + dt * word.speed
---         if word.xPos > (love.graphics.getHeight() - 20) then
---             table.remove(typedWords, index)
---         end
---     end
--- end
 
 function get_word_value(word)
     local value = 0
