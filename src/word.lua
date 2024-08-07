@@ -10,7 +10,6 @@ function Word:new(val, yPos)
     local _word = setmetatable({}, Word)
     _word.val = val
     _word.yPos = yPos
-    --instance.xPos =
     return _word
 end
 

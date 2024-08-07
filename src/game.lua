@@ -9,11 +9,9 @@ local letters_to_ignore = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' } -- For star
 local sounds
 local score
 local entered_words
-local negative_multipler = 1
 local scroll_words
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local screen_width, screen_height = love.graphics.getDimensions()
-local MAX_TIME = 10
 local lives
 local time_left_bg
 local MAX_LIVES = 3
@@ -80,7 +78,7 @@ function love.load()
     lives = MAX_LIVES
     gamestate = 0
     score = 0
-    text = getFirstLetter()
+    text = get_first_letter()
     word_history = {}
     scroll_words = {}
     time_left_bg = 0
@@ -89,7 +87,7 @@ function love.load()
     sounds = load_sounds()
 end
 
-function getFirstLetter()
+function get_first_letter()
     local _letter = "z"
     while has_value(letters_to_ignore, _letter) == true do
         _letter = string.char(math.random(97, 122))
@@ -168,10 +166,8 @@ function update_game(dt)
         if time_left_bg >= 600 then
             go_to_gameover()
         end
-        --time_left = time_left - dt
         time_left_bg = time_left_bg + 0.5
     end
-    --print(time_left)
 end
 
 function update_gameover(dt)
@@ -203,8 +199,6 @@ end
 
 function draw_game()
     set_draw_color_from_hex(COLORS.GRAY)
-    --time_left_bg = clamp(0, time_left_bg + time_left / 10, 600)
-
     love.graphics.rectangle("fill", 0, time_left_bg, 800, 600)
 
     set_draw_color_from_hex(COLORS.WHITE)
@@ -212,7 +206,6 @@ function draw_game()
 
     set_draw_color_from_hex(COLORS.RED)
     love.graphics.printf(text, 0, screen_height / 2 - font:getHeight() / 2, screen_width, "center")
-    --draw_timer()
     draw_lives(lives)
 end
 
@@ -228,27 +221,13 @@ function draw_gameover()
 
     set_draw_color_from_hex(COLORS.GRAY)
     love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screen_width, "center")
+    love.graphics.printf("score: " .. score, 0, 120 - font:getHeight() / 2, screen_width, "center")
     love.graphics.printf("Press R to Restart", 0, 200 - font:getHeight() / 2, screen_width, "center")
-end
-
-function draw_timer()
-    local sx, sy = 150, 500
-    local c = time_left
-    -- TODO: Change color to fit rest of game
-    --local color = {2-2 * c, 2*c, 0} -- red by 0 and green by 1
-    --love.graphics.setColor(_color("#202122"))
-    set_draw_color_from_hex("#ffffff")
-    love.graphics.rectangle('fill', sx, sy, time_left * 50, 40)
-    set_draw_color_from_hex("#ffffff")
-    love.graphics.rectangle('line', sx, sy, MAX_TIME * 50, 40)
 end
 
 function draw_lives(lives)
     set_draw_color_from_hex("#ffffff")
-
-
     for a = 1, lives do
-        --print(a,a*a)
         love.graphics.rectangle("fill", 260 + (40 * a), 10, 20, 20)
     end
 end
@@ -256,9 +235,7 @@ end
 function word_was_good(word)
     entered_words = entered_words + 1
     score = score + get_word_value(word)
-    --time_left = MAX_TIME
     time_left_bg = 0
-    -- Add word to list
     table.insert(word_history, word)
     text = string.sub(text, -1)
 end
@@ -270,11 +247,6 @@ function has_value(tab, val)
         end
     end
     return false
-end
-
-function get_random_letter()
-    math.randomseed(os.clock() ^ 5)
-    return string.char(math.random(65, 65 + 25)):lower()
 end
 
 function play_sound(sound)
@@ -294,7 +266,6 @@ function check_word(word)
     end
 
     if _valid_word == true then
-        -- TODO: Check if word is in the typedWords table
         _is_repeat = has_value(word_history, word)
         if _is_repeat == false then
             -- Word good
@@ -303,17 +274,13 @@ function check_word(word)
         else
             -- Used reapet word
             lives = lives - 1
-            -- TODO: Remove all but first letter
             text = string.sub(text, 1, 1)
             play_sound(sounds.invalid)
             check_lives()
         end
     else
-        -- Word was bad
         play_sound(sounds.invalid)
         go_to_gameover()
-        score = clamp(0, (score - (1 * negative_multipler)), 900)
-        negative_multipler = negative_multipler + 1
         text = ""
     end
 end
@@ -334,29 +301,29 @@ function go_to_gameover()
     end
 end
 
-function save_words_to_txt()
-    local f = love.filesystem.newFile("Test.txt")
-    f:open("w")
+-- function save_words_to_txt()
+--     local f = love.filesystem.newFile("Test.txt")
+--     f:open("w")
 
-    for k, v in ipairs(word_history) do
-        f:write((v .. '\n'))
-    end
+--     for k, v in ipairs(word_history) do
+--         f:write((v .. '\n'))
+--     end
 
-    f:close()
-end
+--     f:close()
+-- end
 
 function clamp(min, val, max)
     return math.max(min, math.min(val, max));
 end
 
-function update_word_pos(dt)
-    for index, word in ipairs(typedWords) do
-        word.xPos = word.xPos + dt * word.speed
-        if word.xPos > (love.graphics.getHeight() - 20) then
-            table.remove(typedWords, index)
-        end
-    end
-end
+-- function update_word_pos(dt)
+--     for index, word in ipairs(typedWords) do
+--         word.xPos = word.xPos + dt * word.speed
+--         if word.xPos > (love.graphics.getHeight() - 20) then
+--             table.remove(typedWords, index)
+--         end
+--     end
+-- end
 
 function get_word_value(word)
     local value = 0

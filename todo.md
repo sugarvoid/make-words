@@ -1,5 +1,5 @@
 ## Todo
-- Rename functions to camel_case
+
 
 ## Bug
 -
