@@ -299,11 +299,11 @@ end
 
 function go_to_gameover()
     gamestate = 2
-    local _yPos = 650
+    local _y_pos = 650
     for index, word in ipairs(word_history) do
-        local _word = Word:new(word, _yPos)
+        local _word = Word:new(word, _y_pos)
         table.insert(scroll_words, _word)
-        _yPos = _yPos + 60
+        _y_pos = _y_pos + 60
     end
 end
 
