@@ -44,6 +44,11 @@ local char_values = {
     z = 10
 }
 
+local TUTORIAL = {
+    "Type a word",
+    "Keep going"
+}
+
 local COLORS = {
     BLACK = "#000000",
     GRAY = "#202122",
