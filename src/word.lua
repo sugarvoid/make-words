@@ -19,5 +19,5 @@ function Word:update(dt)
 end
 
 function Word:draw()
-    love.graphics.printf(self.val, 0, self.y_pos, screen_width, "center")
+    love.graphics.printf(self.val, 0, self.y_pos, 800, "center", 0, 0.8, 0.8)
 end
