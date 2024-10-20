@@ -24,5 +24,8 @@ Using a invalid words will cause a game over.
 ### Music 
 - Thinking And Tinkering by [Fablefly Music](https://fablefly-music.itch.io/)
 
+### Color Palette
+- [RGR Proto 16](https://lospec.com/palette-list/rgr-proto16)
+
 
 

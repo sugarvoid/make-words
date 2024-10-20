@@ -50,10 +50,10 @@ local TUTORIAL = {
 }
 
 local COLORS = {
-    BLACK = "#000000",
-    GRAY = "#202122",
-    RED = "#ff0028",
-    WHITE = "#ffffff99"
+    BLACK = "#0a010d",
+    BLUE = "#144b66",
+    YELLOW = "#ffbf40",
+    RED = "#cc1424"
 }
 
 function load_sounds()
@@ -77,7 +77,7 @@ function love.load()
     font:setFilter("nearest")
     music = love.audio.newSource("sound/thinking_and_tinkering.ogg", "stream")
     music:setVolume(0.7)
-    set_background_fron_hex(COLORS.BLACK)
+    set_background_fron_hex(COLORS.BLUE)
     math.randomseed(os.time()) -- Insures the first letter is random each time
     entered_words = 0
     lives = MAX_LIVES
@@ -117,6 +117,7 @@ function love.keypressed(key)
     if gamestate == 0 then
         if key == "space" then
             gamestate = 1
+            set_background_fron_hex(COLORS.BLACK)
         end
     end
 
@@ -198,41 +199,42 @@ function love.draw()
 end
 
 function draw_menu()
-    set_draw_color_from_hex(COLORS.WHITE)
+    set_draw_color_from_hex(COLORS.YELLOW)
     love.graphics.print("Make Words", 240, 200, 0, 0.9, 0.9)
     love.graphics.print("press space", 260, 300, 0, 0.7, 0.7)
+    love.graphics.print("v 1.0.1", 5, 575, 0, 0.4, 0.4)
 end
 
 function draw_game()
-    set_draw_color_from_hex(COLORS.GRAY)
+    set_draw_color_from_hex(COLORS.BLUE)
     love.graphics.rectangle("fill", 0, time_left_bg, 800, 600)
 
-    set_draw_color_from_hex(COLORS.WHITE)
+    set_draw_color_from_hex(COLORS.YELLOW)
     love.graphics.print(score, 5, 5)
 
-    set_draw_color_from_hex(COLORS.RED)
+    --set_draw_color_from_hex(COLORS.YELLOW)
     love.graphics.printf(text, 0, screen_height / 2 - font:getHeight() / 2, screen_width, "center")
     draw_lives(lives)
 end
 
 function draw_gameover()
-    set_draw_color_from_hex(COLORS.WHITE)
+    set_draw_color_from_hex(COLORS.RED)
     for index, word in ipairs(scroll_words) do
-        if word.yPos < (love.graphics.getHeight() - 20) then
+        if word.y_pos < (love.graphics.getHeight() - 20) then
             word:draw()
         end
     end
     set_draw_color_from_hex(COLORS.BLACK)
     love.graphics.rectangle("fill", 0, 0, 800, 250)
 
-    set_draw_color_from_hex(COLORS.GRAY)
-    love.graphics.printf("game over", 0, 50 - font:getHeight() / 2, screen_width, "center")
-    love.graphics.printf("score: " .. score, 0, 120 - font:getHeight() / 2, screen_width, "center")
-    love.graphics.printf("Press R to Restart", 0, 200 - font:getHeight() / 2, screen_width, "center")
+    set_draw_color_from_hex(COLORS.RED)
+    love.graphics.printf("game over", 0, 60 - font:getHeight() / 2, 800 + (800*0.6), "center", 0, 0.6, 0.6)
+    love.graphics.printf("score " .. score, 0, 110 - font:getHeight() / 2, 800 + (800*0.6), "center", 0, 0.6, 0.6)
+    love.graphics.printf("Press R to Restart", 0, 180 - font:getHeight() / 2, 800 + (800*0.6), "center", 0, 0.6, 0.6)
 end
 
 function draw_lives(lives)
-    set_draw_color_from_hex(COLORS.WHITE)
+    set_draw_color_from_hex(COLORS.YELLOW)
     for a = 1, lives do
         love.graphics.rectangle("fill", 260 + (40 * a), 10, 20, 20)
     end
@@ -298,13 +300,15 @@ function check_lives()
 end
 
 function go_to_gameover()
-    gamestate = 2
+
+    
     local _y_pos = 650
     for index, word in ipairs(word_history) do
         local _word = Word:new(word, _y_pos)
         table.insert(scroll_words, _word)
         _y_pos = _y_pos + 60
     end
+    gamestate = 2
 end
 
 function clamp(min, val, max)
