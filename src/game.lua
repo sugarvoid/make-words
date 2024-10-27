@@ -1,5 +1,6 @@
 require("src.word")
 
+local version = "1.0.1"
 local music
 local font
 local text
@@ -53,7 +54,7 @@ local COLORS = {
     BLACK = "#0a010d",
     BLUE = "#144b66",
     YELLOW = "#ffbf40",
-    RED = "#cc1424"
+    RED = "#871e2e"
 }
 
 function load_sounds()
@@ -202,7 +203,7 @@ function draw_menu()
     set_draw_color_from_hex(COLORS.YELLOW)
     love.graphics.print("Make Words", 240, 200, 0, 0.9, 0.9)
     love.graphics.print("press space", 260, 300, 0, 0.7, 0.7)
-    love.graphics.print("v 1.0.1", 5, 575, 0, 0.4, 0.4)
+    love.graphics.print("v "..version, 5, 575, 0, 0.4, 0.4)
 end
 
 function draw_game()
