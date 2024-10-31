@@ -16,6 +16,7 @@ local screen_width, screen_height = love.graphics.getDimensions()
 local lives
 local time_left_bg
 local MAX_LIVES = 3
+local game_mode = ""
 local char_values = {
     a = 1,
     b = 3,
@@ -110,12 +111,21 @@ function love.textinput(t)
     end
 end
 
-function love.keypressed(key)
+function love.keypressed(key, _, isrepeat)
     if key == "escape" then
         love.event.quit()
     end
 
     if gamestate == 0 then
+
+        if isrepeat == false then
+            if key == "left" then
+                print("left")
+            elseif key == "right"then
+                print('right')
+            end
+        end
+
         if key == "space" then
             gamestate = 1
             set_background_fron_hex(COLORS.BLACK)
@@ -202,7 +212,12 @@ end
 function draw_menu()
     set_draw_color_from_hex(COLORS.YELLOW)
     love.graphics.print("Make Words", 240, 200, 0, 0.9, 0.9)
-    love.graphics.print("press space", 260, 300, 0, 0.7, 0.7)
+
+    love.graphics.print("chain", 200, 350, 0, 0.7, 0.7)
+    love.graphics.print("deluxe", 470, 350, 0, 0.7, 0.7)
+
+    love.graphics.print("game mode info", 200, 450, 0, 0.4, 0.4)
+
     love.graphics.print("v "..version, 5, 575, 0, 0.4, 0.4)
 end
 
