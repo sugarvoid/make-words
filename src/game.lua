@@ -3,7 +3,7 @@ require("src.word")
 local version = "1.0.1"
 local music
 local font
-local text
+local text = ""
 local utf8 = require("utf8")
 local word_history
 local letters_to_ignore = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' } -- For starting letter
@@ -46,9 +46,18 @@ local char_values = {
     z = 10
 }
 
-local TUTORIAL = {
-    "Type a word",
+local tutorial_tbl = nil
+
+local TUTORIAL_CHAIN = {
+    "Type a word \n starting with ".. text,
     "Keep going"
+}
+
+local TUTORIAL_DELUXE = {
+    "Type a word",
+    "Use this letter \n in next word",
+    "Enter next word \n before time goes out",
+    "Now use both letters"
 }
 
 local COLORS = {
@@ -74,6 +83,7 @@ function load_sounds()
 end
 
 function love.load()
+    
     love.mouse.setVisible(false)
     font = love.graphics.newFont("font/Round9x13.ttf", 64)
     font:setFilter("nearest")
@@ -358,4 +368,22 @@ function set_background_fron_hex(rgba)
     local bb = tonumber(string.sub(rgba, 6, 7), 16)
     local ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
     love.graphics.setBackgroundColor(love.math.colorFromBytes(rb, gb, bb, ab))
+end
+
+function create_used_word_file()
+    local success, message =love.filesystem.write( "used_words.txt", "hello")
+    if success then 
+        print ('file created')
+    else 
+        print ('file not created: '..message)
+    end
+end
+
+function start_game()
+    if game_mode == "chain" then
+        tutorial_tbl = TUTORIAL_CHAIN
+    elseif game_mode == "deluxe" then
+        tutorial_tbl = TUTORIAL_DELUXE 
+    else
+        print("Error: game mode was not set")
 end
