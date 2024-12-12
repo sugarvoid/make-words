@@ -1,9 +1,11 @@
+require("src.letter")
 require("src.word")
+require("src.display_word")
 local utf8=require("utf8")
 
 local version="1.0.1"
 local music
-local font
+font = nil
 local text=""
 
 local word_history
@@ -47,6 +49,9 @@ local char_values={
     z=10
 }
 
+local display_letter_1 = nil
+local display_letter_2 = nil
+local display_letter_3 = nil
 local txtPlay=nil
 local txtChain=nil
 local txtDeluxe=nil
@@ -57,6 +62,8 @@ local txtDeluxeInfo=nil
 local deluxeInfoStr="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
 local menu_index=1
+
+local word_obj = Word:new()
 
 local tutorial_tbl=nil
 
@@ -118,12 +125,14 @@ function love.load()
     gamestate=0
     score=0
     text=get_first_letter()
+    word_obj:add_part(text)
     word_history={}
     scroll_words={}
     time_left_bg=0
     love.graphics.setFont(font)
     love.keyboard.setKeyRepeat(true)
     sounds=load_sounds()
+    word_obj:reset()
 end
 
 function get_first_letter()
@@ -138,6 +147,8 @@ function love.textinput(t)
     if gamestate==1 then
         if (t:match("%a+")) then
             text=text..t
+            word_obj:add_part(t)
+            print(#word_obj.parts)
             play_sound(sounds.click)
         end
     end
@@ -182,6 +193,8 @@ function love.keypressed(key,_,isrepeat)
                     -- remove the last UTF-8 character.
                     -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
                     text=string.sub(text,1,byteoffset-1)
+                    word_obj:backspace()
+                    
                     play_sound(sounds.erase)
                 end
             end
@@ -270,6 +283,8 @@ function draw_game()
     set_draw_color_from_hex(COLORS.YELLOW)
     love.graphics.print(score,5,5)
 
+    word_obj:draw()
+
     --set_draw_color_from_hex(COLORS.YELLOW)
     love.graphics.printf(text,0,screen_height/2-font:getHeight()/2,screen_width,"center")
     draw_lives(lives)
@@ -304,6 +319,8 @@ function word_was_good(word)
     time_left_bg=0
     table.insert(word_history,word)
     text=string.sub(text,-1)
+    word_obj:clear()
+    word_obj:add_part(text)
 end
 
 function has_value(tab,val)
@@ -348,6 +365,7 @@ function check_word(word)
         play_sound(sounds.invalid)
         go_to_gameover()
         text=""
+        word_obj:clear()
     end
 end
 
@@ -361,7 +379,7 @@ function go_to_gameover()
 
     local _y_pos=650
     for index,word in ipairs(word_history) do
-        local _word=Word:new(word,_y_pos)
+        local _word=DisplayWord:new(word,_y_pos)
         table.insert(scroll_words,_word)
         _y_pos=_y_pos+60
     end
