@@ -34,8 +34,8 @@ Word.__index = Word
 function Word:new()
     local _d_word = setmetatable({}, Word)
     _d_word.letters = {}
-    _d_word.x = 50
-    _d_word.y = 400
+    _d_word.x = 250
+    _d_word.y = 250
     _d_word.position = {x=0, y=-200}
     _d_word.ox = 30
     _d_word.oy = 30
