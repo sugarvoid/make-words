@@ -1,26 +1,24 @@
 Letter = {}
 Letter.__index = Letter
 
-function Letter:new(val, pos)
+function Letter:new(str, prev_letter)
     local _letter = setmetatable({}, Letter)
-    _letter.val = val
-    _letter.x = pos[1]
-    _letter.y = pos[2]
-    _letter.display_pos = nil
+    _letter.x = nil
+    _letter.end_x = nil
+    if prev_letter then
+         _letter.x = prev_letter.x + prev_letter.width
+    end
+    _letter.value = str
+    _letter.width = font:getWidth(str)
     return _letter
 end
 
-function Letter:move_to(x,y)
-    
+function Letter:move_to(pos)
+    flux.to(self, 1, { x = pos[1], y = pos[2] }):ease("backinout")
 end
 
-function Letter:update(dt)
-    self.y_pos = self.y_pos - scroll_speed * dt
-    if self.y_pos > (love.graphics.getHeight() - 20) then
-        return
-    end
-end
+
 
 function Letter:draw()
-    love.graphics.printf(self.val, 0, self.y_pos, 800, "center", 0, 0.8, 0.8)
+    love.graphics.print(self.value, self.x, self.y, 0, 1, 1) 
 end
