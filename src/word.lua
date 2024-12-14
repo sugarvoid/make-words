@@ -72,6 +72,7 @@ function Word:add_part(str)
     end
     new_part.y = self.y
     table.insert(self.letters, new_part)
+    print("word got a new letter: " .. str )
 end
 
 function Word:move(new_x, new_y)

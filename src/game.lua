@@ -1,15 +1,15 @@
 require("src.letter")
 require("src.word")
 require("src.display_word")
-local utf8 = require("utf8")
+local utf8                        = require("utf8")
 
-local version = "1.0.1"
+local version                     = "2.0a"
 local music
-font = nil
-local text = ""
+font                              = nil
+local text                        = ""
 
 local word_history
-local letters_to_ignore = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' } -- For starting letter
+local letters_to_ignore           = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' } -- For starting letter
 local sounds
 local score
 local entered_words
@@ -18,9 +18,9 @@ local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local screen_width, screen_height = love.graphics.getDimensions()
 local lives
 local time_left_bg
-local MAX_LIVES = 3
-local game_mode = ""
-local char_values = {
+local MAX_LIVES                   = 3
+local game_mode                   = ""
+local char_values                 = {
     a = 1,
     b = 3,
     c = 3,
@@ -49,29 +49,30 @@ local char_values = {
     z = 10
 }
 
-local display_letter_1 = nil
-local display_letter_2 = nil
-local display_letter_3 = nil
-local txtPlay = nil
-local txtChain = nil
-local txtDeluxe = nil
+local display_letter_1            = nil
+local display_letter_2            = nil
+local display_letter_3            = nil
+local txtPlay                     = nil
+local txtChain                    = nil
+local txtDeluxe                   = nil
 
-local txtChainInfo = nil
-local chainInfoStr = "The last letter becomes your next word's first letter."
-local txtDeluxeInfo = nil
-local deluxeInfoStr = "Use random letter from previous word in next word."
+local txtChainInfo                = nil
+local chainInfoStr                = "The last letter becomes your next word's first letter."
+local txtDeluxeInfo               = nil
+local deluxeInfoStr               = "Use random letter from previous word in next word."
 
-local menu_index = 1
+local menu_index                  = 1
 
-local required_letters = {}
+local required_letters            = {}
 
-local word_obj = Word:new()
+local word_obj                    = Word:new()
 
-local tutorial_tbl = nil
+local tutorial_tbl                = nil
 
 
 r_letter_pos = {
-    { 80, 70 }, { 100, 70 }, { 120, 70 }
+    { 200, 80 },
+    { 500, 80 },
 }
 
 
@@ -123,6 +124,9 @@ function love.load()
     love.mouse.setVisible(false)
     font = love.graphics.newFont("font/Round9x13.ttf", 64)
     font:setFilter("nearest")
+    love.graphics.setFont(font)
+    love.keyboard.setKeyRepeat(true)
+    gamestate = 0
     set_up_text_objs()
     music = love.audio.newSource("sound/thinking_and_tinkering.ogg", "stream")
     music:setVolume(0.7)
@@ -130,15 +134,9 @@ function love.load()
     math.randomseed(os.time()) -- Insures the first letter is random each time
     entered_words = 0
     lives = MAX_LIVES
-    gamestate = 0
-    score = 0
-    text = get_first_letter()
-    word_obj:add_part(text)
-    word_history = {}
-    scroll_words = {}
-    time_left_bg = 0
-    love.graphics.setFont(font)
-    love.keyboard.setKeyRepeat(true)
+
+
+
     sounds = load_sounds()
     word_obj:reset()
 end
@@ -170,10 +168,8 @@ function love.keypressed(key, _, isrepeat)
     if gamestate == 0 then
         if isrepeat == false then
             if key == "left" then
-                --print("left")
                 menu_index = clamp(1, menu_index - 1, 2)
             elseif key == "right" then
-                --print('right')
                 menu_index = clamp(1, menu_index + 1, 2)
             end
         end
@@ -185,7 +181,8 @@ function love.keypressed(key, _, isrepeat)
             else
                 game_mode = "deluxe"
             end
-            gamestate = 1
+            start_game()
+
             set_background_fron_hex(COLORS.BLACK)
         end
     end
@@ -202,9 +199,16 @@ function love.keypressed(key, _, isrepeat)
             local byteoffset = utf8.offset(text, -1)
 
             if byteoffset then
-                if string.len(text) > 1 then
-                    -- remove the last UTF-8 character.
-                    -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
+                if game_mode == "chain" then
+                    if string.len(text) > 1 then
+                        -- remove the last UTF-8 character.
+                        -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
+                        text = string.sub(text, 1, byteoffset - 1)
+                        word_obj:backspace()
+
+                        play_sound(sounds.erase)
+                    end
+                else
                     text = string.sub(text, 1, byteoffset - 1)
                     word_obj:backspace()
 
@@ -298,6 +302,11 @@ function draw_game()
 
     word_obj:draw()
 
+    if game_mode == "deluxe" then
+        required_letters[1]:draw()
+        required_letters[2]:draw()
+    end
+
     --set_draw_color_from_hex(COLORS.YELLOW)
     --todo: remove me  love.graphics.printf(text,0,screen_height/2-font:getHeight()/2,screen_width,"center")
     draw_lives(lives)
@@ -331,9 +340,36 @@ function word_was_good(word)
     score = score + get_word_value(word)
     time_left_bg = 0
     table.insert(word_history, word)
-    text = string.sub(text, -1)
-    word_obj:clear()
-    word_obj:add_part(text)
+    if game_mode == "chain" then
+        text = string.sub(text, -1)
+        word_obj:clear()
+        word_obj:add_part(text)
+    elseif game_mode == "deluxe" then
+        --local _letter = table.shuffle(word_to_table(word))
+
+        local _options = shuffled_range_take(2, 1, #word_obj.letters)
+
+
+        required_letters[1] = table.copy(word_obj.letters[_options[1]])
+        required_letters[2] = table.copy(word_obj.letters[_options[2]])
+
+        print(required_letters[1].value)
+        print(required_letters[2].value)
+
+        required_letters[1]:move_to(r_letter_pos[1])
+        required_letters[2]:move_to(r_letter_pos[2])
+
+        text = ""
+        word_obj:clear()
+        --get_next_required_letters(word)
+    end
+end
+
+function get_next_required_letters(word)
+    local word_t = word_to_table(word)
+    word_t = table.shuffle(word_t)
+
+    required_letters = { word_t[1], word_t[2] }
 end
 
 function has_value(tab, val)
@@ -396,16 +432,18 @@ function check_word(word)
         end
     elseif game_mode == "deluxe" then
         local word_t = word_to_table(word)
-        local bool_tbl
+        local bool_tbl = {}
 
 
         for _, l in ipairs(required_letters) do
-            table.insert(bool_tbl, table.contains(word_t, l))
+            table.insert(bool_tbl, table.contains(word_t, l.value))
         end
 
         if all_true(bool_tbl) then
             play_sound(sounds.correct)
             word_was_good(word)
+        else
+            print("bad word")
         end
     end
 end
@@ -417,8 +455,8 @@ function check_lives()
 end
 
 function go_to_gameover()
-    local _y_pos = 650
-    for index, word in ipairs(word_history) do
+    local _y_pos = 665
+    for _, word in ipairs(word_history) do
         local _word = DisplayWord:new(word, _y_pos)
         table.insert(scroll_words, _word)
         _y_pos = _y_pos + 60
@@ -469,10 +507,27 @@ function create_used_word_file()
 end
 
 function start_game()
+    gamestate = 1
+    score = 0
+
+
+    word_history = {}
+    scroll_words = {}
+    time_left_bg = 0
     if game_mode == "chain" then
         tutorial_tbl = TUTORIAL_CHAIN
+        text = get_first_letter()
+        word_obj:add_part(text)
     elseif game_mode == "deluxe" then
         tutorial_tbl = TUTORIAL_DELUXE
+        required_letters = {
+            Letter:new("a"),
+            Letter:new("l")
+        }
+        required_letters[1].x = r_letter_pos[1][1]
+        required_letters[1].y = r_letter_pos[1][2]
+        required_letters[2].x = r_letter_pos[2][1]
+        required_letters[2].y = r_letter_pos[2][2]
     else
         print("Error: game mode was not set")
     end
@@ -494,4 +549,62 @@ function word_to_table(word)
         t[i] = word:sub(i, i)
     end
     return t
+end
+
+function setColorHEX(rgba)
+    --	setColorHEX(rgba)
+    --	where rgba is string as "#336699cc"
+    local rb = tonumber(string.sub(rgba, 2, 3), 16)
+    local gb = tonumber(string.sub(rgba, 4, 5), 16)
+    local bb = tonumber(string.sub(rgba, 6, 7), 16)
+    local ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
+    --	print (rb, gb, bb, ab) -- prints 	51	102	153	204
+    --	print (love.math.colorFromBytes( rb, gb, bb, ab )) -- prints	0.2	0.4	0.6	0.8
+    love.graphics.setColor(love.math.colorFromBytes(rb, gb, bb, ab))
+end
+
+function table.shuffle(t)
+    local tbl = {}
+    for i = 1, #t do
+        tbl[i] = t[i]
+    end
+    for i = #tbl, 2, -1 do
+        local j = math.random(i)
+        tbl[i], tbl[j] = tbl[j], tbl[i]
+    end
+    return tbl
+end
+
+function table.copy(t)
+    local u = {}
+    for k, v in pairs(t) do u[k] = v end
+    return setmetatable(u, getmetatable(t))
+end
+
+function shuffle(arr)
+    for i = 1, #arr - 1 do
+        local j = math.random(i, #arr)
+        arr[i], arr[j] = arr[j], arr[i]
+    end
+end
+
+function shuffled_range_take(n, a, b)
+    local numbers = {}
+    for i = a, b do
+        numbers[i] = i
+    end
+    shuffle(numbers)
+
+    local take = {}
+    for i = 1, n do
+        take[i] = numbers[i]
+    end
+    return take
+    -- table.unpack won't work for very large ranges, e.g. [1, 1000000]
+    -- You could instead use this for arbitrarily large ranges:
+    -- local take = {}
+    -- for i= 1, n do
+    --   take[i] = numbers[i]
+    -- end
+    -- return take
 end
