@@ -1,26 +1,24 @@
 require("src.letter")
 require("src.word")
 require("src.display_word")
-local utf8                        = require("utf8")
+local utf8              = require("utf8")
 
-local version                     = "2.0a"
+local version           = "2.0a"
 local music
-font                              = nil
-local text                        = ""
-
+font                    = nil
+local text              = ""
 local word_history
-local letters_to_ignore           = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' } -- For starting letter
+local letters_to_ignore = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' }           -- For starting letter
 local sounds
 local score
 local entered_words
 local scroll_words
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
-local screen_width, screen_height = love.graphics.getDimensions()
 local lives
 local time_left_bg
-local MAX_LIVES                   = 3
-local game_mode                   = ""
-local char_values                 = {
+local MAX_LIVES         = 3
+local game_mode         = ""
+local char_values       = {
     a = 1,
     b = 3,
     c = 3,
@@ -49,33 +47,22 @@ local char_values                 = {
     z = 10
 }
 
-local display_letter_1            = nil
-local display_letter_2            = nil
-local display_letter_3            = nil
-local txtPlay                     = nil
-local txtChain                    = nil
-local txtDeluxe                   = nil
+local txtPlay           = nil
+local txtChain          = nil
+local txtDeluxe         = nil
+local txtChainInfo      = nil
+local chainInfoStr      = "The last letter becomes your next word's first letter."
+local txtDeluxeInfo     = nil
+local deluxeInfoStr     = "Use random letter from previous word in next word."
+local menu_index        = 1
+local required_letters  = {}
+local word_obj          = Word:new()
+local tutorial_tbl      = nil
 
-local txtChainInfo                = nil
-local chainInfoStr                = "The last letter becomes your next word's first letter."
-local txtDeluxeInfo               = nil
-local deluxeInfoStr               = "Use random letter from previous word in next word."
-
-local menu_index                  = 1
-
-local required_letters            = {}
-
-local word_obj                    = Word:new()
-
-local tutorial_tbl                = nil
-
-
-r_letter_pos = {
+local r_letter_pos = {
     { 200, 80 },
     { 500, 80 },
 }
-
-
 
 local TUTORIAL_CHAIN = {
     "Type a word \n starting with " .. text,
@@ -134,9 +121,6 @@ function love.load()
     math.randomseed(os.time()) -- Insures the first letter is random each time
     entered_words = 0
     lives = MAX_LIVES
-
-
-
     sounds = load_sounds()
     word_obj:reset()
 end
@@ -307,8 +291,6 @@ function draw_game()
         required_letters[2]:draw()
     end
 
-    --set_draw_color_from_hex(COLORS.YELLOW)
-    --todo: remove me  love.graphics.printf(text,0,screen_height/2-font:getHeight()/2,screen_width,"center")
     draw_lives(lives)
 end
 
@@ -345,35 +327,27 @@ function word_was_good(word)
         word_obj:clear()
         word_obj:add_part(text)
     elseif game_mode == "deluxe" then
-        --local _letter = table.shuffle(word_to_table(word))
-
         local _options = shuffled_range_take(2, 1, #word_obj.letters)
-
 
         required_letters[1] = table.copy(word_obj.letters[_options[1]])
         required_letters[2] = table.copy(word_obj.letters[_options[2]])
-
-        print(required_letters[1].value)
-        print(required_letters[2].value)
 
         required_letters[1]:move_to(r_letter_pos[1])
         required_letters[2]:move_to(r_letter_pos[2])
 
         text = ""
         word_obj:clear()
-        --get_next_required_letters(word)
     end
 end
 
 function get_next_required_letters(word)
     local word_t = word_to_table(word)
     word_t = table.shuffle(word_t)
-
     required_letters = { word_t[1], word_t[2] }
 end
 
 function has_value(tab, val)
-    for index, value in ipairs(tab) do
+    for _, value in ipairs(tab) do
         if value == val then
             return true
         end
@@ -399,7 +373,6 @@ local function all_true(t)
     for _, v in pairs(t) do
         if not v then return false end
     end
-
     return true
 end
 
@@ -600,11 +573,4 @@ function shuffled_range_take(n, a, b)
         take[i] = numbers[i]
     end
     return take
-    -- table.unpack won't work for very large ranges, e.g. [1, 1000000]
-    -- You could instead use this for arbitrarily large ranges:
-    -- local take = {}
-    -- for i= 1, n do
-    --   take[i] = numbers[i]
-    -- end
-    -- return take
 end
