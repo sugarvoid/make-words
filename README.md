@@ -5,27 +5,36 @@ A clone of typing game I came across itch. Using it as an exercise to learn the 
 Get a basic understanding of LÖVE. 
 
 ## How To Play
+### Chain Mode
 Type a word the starts with the letter on screen and press enter to submit the word. The last letter of the submitted work will be the first letter of the next word. 
 
 Reusing a word will cause player to lose a life. 
 
 Using a invalid words will cause a game over. 
 
+### Deluxe Mode
+Type a word that contains both of the required letters and press enter to submit the word. Two random letters will be selected as the next required letters. 
+
+Reusing a word will cause player to lose a life. 
+
+Using a invalid words will cause a game over. 
+
+
 ## Credits
 ### Framework 
-- [LÖVE](https://love2d.org/)
+[LÖVE](https://love2d.org/)
 
 ### Original Game
-- [Word Chain](https://mantequilla525.itch.io/word-chain) by [mantequilla525](https://mantequilla525.itch.io/)
+[Word Chain](https://mantequilla525.itch.io/word-chain) by [mantequilla525](https://mantequilla525.itch.io/)
 
 ### Font
-- Round9x13 by [Herald](https://he.rald.fr/fonts) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Round9x13 by [Herald](https://he.rald.fr/fonts) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ### Music 
-- Thinking And Tinkering by [Fablefly Music](https://fablefly-music.itch.io/)
+Thinking And Tinkering by [Fablefly Music](https://fablefly-music.itch.io/)
 
 ### Color Palette
-- [RGR Proto 16](https://lospec.com/palette-list/rgr-proto16)
+[RGR Proto 16](https://lospec.com/palette-list/rgr-proto16)
 
 
 
