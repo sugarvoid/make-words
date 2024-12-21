@@ -6,9 +6,8 @@ local utf8              = require("utf8")
 local version           = "2.0a"
 local music
 font                    = nil
---local text              = ""
 local word_history
-local letters_to_ignore = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' }           -- For starting letter
+local letters_to_ignore = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' } -- For starting letter
 local sounds
 local score
 local entered_words
@@ -58,35 +57,35 @@ local menu_index        = 1
 local required_letters  = {}
 local word_obj          = Word:new()
 local tutorial_tbl      = nil
-local starting_pairs = {
-    {"a", "l"},
-    {"c", "h"},
-    {"e", "d"},
-    {"f", "l"},
-    {"g", "o"},
-    {"i", "h"},
-    {"i", "t"},
-    {"m", "e"},
+local starting_pairs    = {
+    { "a", "l" },
+    { "c", "h" },
+    { "e", "d" },
+    { "f", "l" },
+    { "g", "o" },
+    { "i", "h" },
+    { "i", "t" },
+    { "m", "e" },
 }
 
-local r_letter_pos = {
+local r_letter_pos      = {
     { 200, 80 },
     { 500, 80 },
 }
 
-local TUTORIAL_CHAIN = {
+local TUTORIAL_CHAIN    = {
     "Type a word \n starting with " .. tostring(word_obj:get_value()),
     "Keep going"
 }
 
-local TUTORIAL_DELUXE = {
+local TUTORIAL_DELUXE   = {
     "Type a word",
     "Use this letter \n in next word",
     "Enter next word \n before time goes out",
     "Now use both letters"
 }
 
-local COLORS = {
+local COLORS            = {
     BLACK = "#0a010d",
     BLUE = "#144b66",
     YELLOW = "#ffbf40",
@@ -146,7 +145,6 @@ end
 function love.textinput(t)
     if gamestate == 1 then
         if (t:match("%a+")) then
-            --text = text .. t
             word_obj:add_part(t)
             play_sound(sounds.click)
         end
@@ -187,30 +185,18 @@ function love.keypressed(key, _, isrepeat)
 
     if gamestate == 1 then
         if key == "backspace" then
-            -- get the byte offset to the last UTF-8 character in the string.
-            --local byteoffset = utf8.offset(text, -1)
-
-            --if byteoffset then
-                if game_mode == "chain" then
-                    if #word_obj.letters > 1 then
-                        -- remove the last UTF-8 character.
-                        -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
-                        --text = string.sub(text, 1, byteoffset - 1)
-                        word_obj:backspace()
-
-                        play_sound(sounds.erase)
-                    end
-                else
-                    --text = string.sub(text, 1, byteoffset - 1)
+            if game_mode == "chain" then
+                if #word_obj.letters > 1 then
                     word_obj:backspace()
-
                     play_sound(sounds.erase)
                 end
-            --end
+            else
+                word_obj:backspace()
+                play_sound(sounds.erase)
+            end
         end
 
         if key == "return" and #word_obj.letters >= 2 then
-            --check_word(text)
             check_word(word_obj:get_value())
         end
     end
@@ -278,11 +264,7 @@ function draw_menu()
         love.graphics.printf(deluxeInfoStr, 250, 420, 900, "left", 0, 0.4, 0.4)
     end
     love.graphics.draw(txtChain, 200, 350, 0, 0.7, 0.7)
-
     love.graphics.draw(txtDeluxe, 470, 350, 0, 0.7, 0.7)
-
-    --love.graphics.print("game mode info",200,450,0,0.4,0.4)
-
     love.graphics.print("v " .. version, 5, 575, 0, 0.4, 0.4)
 end
 
@@ -333,7 +315,6 @@ function word_was_good(word)
     table.insert(word_history, word)
     if game_mode == "chain" then
         local next_starting_letter = word_obj.letters[#word_obj.letters].value
-        --text = string.sub(text, -1)
         word_obj:clear()
         word_obj:add_part(next_starting_letter)
     elseif game_mode == "deluxe" then
@@ -345,7 +326,6 @@ function word_was_good(word)
         required_letters[1]:move_to(r_letter_pos[1])
         required_letters[2]:move_to(r_letter_pos[2])
 
-        --text = ""
         word_obj:clear()
     end
 end
@@ -390,7 +370,6 @@ function check_word(word)
     local _valid_word
     local _is_repeat
 
-
     _valid_word = is_word_valid(word)
 
     if game_mode == "chain" then
@@ -403,20 +382,17 @@ function check_word(word)
             else
                 -- Used reapet word
                 lives = lives - 1
-                --text = string.sub(text, 1, 1)
                 play_sound(sounds.invalid)
                 check_lives()
             end
         else
             play_sound(sounds.invalid)
             go_to_gameover()
-            --text = ""
             word_obj:clear()
         end
     elseif game_mode == "deluxe" then
         local word_t = word_to_table(word)
         local bool_tbl = {}
-
 
         for _, l in ipairs(required_letters) do
             table.insert(bool_tbl, table.contains(word_t, l.value))
@@ -492,14 +468,11 @@ end
 function start_game()
     gamestate = 1
     score = 0
-
-
     word_history = {}
     scroll_words = {}
     time_left_bg = 0
     if game_mode == "chain" then
         tutorial_tbl = TUTORIAL_CHAIN
-        --local first = get_first_letter()
         word_obj:add_part(get_first_letter())
     elseif game_mode == "deluxe" then
         local _r_num = math.random(#starting_pairs)
