@@ -32,7 +32,6 @@ function Word:get_value()
     for _, l in ipairs(self.letters) do
         _word = _word .. tostring(l.value)
     end
-    print(_word)
     return _word
 end
 

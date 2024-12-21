@@ -6,7 +6,7 @@ local utf8              = require("utf8")
 local version           = "2.0a"
 local music
 font                    = nil
-local text              = ""
+--local text              = ""
 local word_history
 local letters_to_ignore = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' }           -- For starting letter
 local sounds
@@ -58,6 +58,16 @@ local menu_index        = 1
 local required_letters  = {}
 local word_obj          = Word:new()
 local tutorial_tbl      = nil
+local starting_pairs = {
+    {"a", "l"},
+    {"c", "h"},
+    {"e", "d"},
+    {"f", "l"},
+    {"g", "o"},
+    {"i", "h"},
+    {"i", "t"},
+    {"m", "e"},
+}
 
 local r_letter_pos = {
     { 200, 80 },
@@ -65,7 +75,7 @@ local r_letter_pos = {
 }
 
 local TUTORIAL_CHAIN = {
-    "Type a word \n starting with " .. text,
+    "Type a word \n starting with " .. tostring(word_obj:get_value()),
     "Keep going"
 }
 
@@ -126,7 +136,7 @@ function love.load()
 end
 
 function get_first_letter()
-    local _letter = "z"
+    local _letter = ""
     while has_value(letters_to_ignore, _letter) == true do
         _letter = string.char(math.random(97, 122))
     end
@@ -138,7 +148,6 @@ function love.textinput(t)
         if (t:match("%a+")) then
             --text = text .. t
             word_obj:add_part(t)
-            print(#word_obj.letters)
             play_sound(sounds.click)
         end
     end
@@ -159,7 +168,6 @@ function love.keypressed(key, _, isrepeat)
         end
 
         if key == "space" then
-            print(menu_index)
             if menu_index == 1 then
                 game_mode = "chain"
             else
@@ -325,7 +333,7 @@ function word_was_good(word)
     table.insert(word_history, word)
     if game_mode == "chain" then
         local next_starting_letter = word_obj.letters[#word_obj.letters].value
-        text = string.sub(text, -1)
+        --text = string.sub(text, -1)
         word_obj:clear()
         word_obj:add_part(next_starting_letter)
     elseif game_mode == "deluxe" then
@@ -337,7 +345,7 @@ function word_was_good(word)
         required_letters[1]:move_to(r_letter_pos[1])
         required_letters[2]:move_to(r_letter_pos[2])
 
-        text = ""
+        --text = ""
         word_obj:clear()
     end
 end
@@ -402,7 +410,7 @@ function check_word(word)
         else
             play_sound(sounds.invalid)
             go_to_gameover()
-            text = ""
+            --text = ""
             word_obj:clear()
         end
     elseif game_mode == "deluxe" then
@@ -491,13 +499,15 @@ function start_game()
     time_left_bg = 0
     if game_mode == "chain" then
         tutorial_tbl = TUTORIAL_CHAIN
-        text = get_first_letter()
-        word_obj:add_part(text)
+        --local first = get_first_letter()
+        word_obj:add_part(get_first_letter())
     elseif game_mode == "deluxe" then
+        local _r_num = math.random(#starting_pairs)
+        local _starting_letter = starting_pairs[_r_num]
         tutorial_tbl = TUTORIAL_DELUXE
         required_letters = {
-            Letter:new("a"),
-            Letter:new("l")
+            Letter:new(_starting_letter[1]),
+            Letter:new(_starting_letter[2])
         }
         required_letters[1].x = r_letter_pos[1][1]
         required_letters[1].y = r_letter_pos[1][2]
