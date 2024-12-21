@@ -27,6 +27,15 @@ function Word:clear()
     end
 end
 
+function Word:get_value()
+    local _word = ""
+    for _, l in ipairs(self.letters) do
+        _word = _word .. tostring(l.value)
+    end
+    print(_word)
+    return _word
+end
+
 function Word:add_part(str)
     local _last_part = nil
     local _next_index = nil

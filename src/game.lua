@@ -136,7 +136,7 @@ end
 function love.textinput(t)
     if gamestate == 1 then
         if (t:match("%a+")) then
-            text = text .. t
+            --text = text .. t
             word_obj:add_part(t)
             print(#word_obj.letters)
             play_sound(sounds.click)
@@ -180,29 +180,30 @@ function love.keypressed(key, _, isrepeat)
     if gamestate == 1 then
         if key == "backspace" then
             -- get the byte offset to the last UTF-8 character in the string.
-            local byteoffset = utf8.offset(text, -1)
+            --local byteoffset = utf8.offset(text, -1)
 
-            if byteoffset then
+            --if byteoffset then
                 if game_mode == "chain" then
-                    if string.len(text) > 1 then
+                    if #word_obj.letters > 1 then
                         -- remove the last UTF-8 character.
                         -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
-                        text = string.sub(text, 1, byteoffset - 1)
+                        --text = string.sub(text, 1, byteoffset - 1)
                         word_obj:backspace()
 
                         play_sound(sounds.erase)
                     end
                 else
-                    text = string.sub(text, 1, byteoffset - 1)
+                    --text = string.sub(text, 1, byteoffset - 1)
                     word_obj:backspace()
 
                     play_sound(sounds.erase)
                 end
-            end
+            --end
         end
 
-        if key == "return" and text ~= "" and string.len(text) >= 2 then
-            check_word(text)
+        if key == "return" and #word_obj.letters >= 2 then
+            --check_word(text)
+            check_word(word_obj:get_value())
         end
     end
 end
@@ -323,9 +324,10 @@ function word_was_good(word)
     time_left_bg = 0
     table.insert(word_history, word)
     if game_mode == "chain" then
+        local next_starting_letter = word_obj.letters[#word_obj.letters].value
         text = string.sub(text, -1)
         word_obj:clear()
-        word_obj:add_part(text)
+        word_obj:add_part(next_starting_letter)
     elseif game_mode == "deluxe" then
         local _options = shuffled_range_take(2, 1, #word_obj.letters)
 
@@ -393,7 +395,7 @@ function check_word(word)
             else
                 -- Used reapet word
                 lives = lives - 1
-                text = string.sub(text, 1, 1)
+                --text = string.sub(text, 1, 1)
                 play_sound(sounds.invalid)
                 check_lives()
             end
