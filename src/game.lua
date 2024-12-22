@@ -1,13 +1,14 @@
+flux = require "lib.flux"
+
 require("src.letter")
 require("src.word")
 require("src.display_word")
-local utf8              = require("utf8")
 
-local version           = "2.0a"
+local version = "2.0a"
 local music
-font                    = nil
+font = nil
 local word_history
-local letters_to_ignore = { 'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v' } -- For starting letter
+local letters_to_ignore = {'x', 'q', 'u', 'z', 'w', 'y', 'i', 'v'} -- For starting letter
 local sounds
 local score
 local entered_words
@@ -15,9 +16,9 @@ local scroll_words
 local gamestate -- 0 = menu, 1 = game, 2 = gameover
 local lives
 local time_left_bg
-local MAX_LIVES         = 3
-local game_mode         = ""
-local char_values       = {
+local MAX_LIVES = 3
+local game_mode = ""
+local char_values = {
     a = 1,
     b = 3,
     c = 3,
@@ -46,46 +47,46 @@ local char_values       = {
     z = 10
 }
 
-local txtPlay           = nil
-local txtChain          = nil
-local txtDeluxe         = nil
-local txtChainInfo      = nil
-local chainInfoStr      = "The last letter becomes your next word's first letter."
-local txtDeluxeInfo     = nil
-local deluxeInfoStr     = "Use random letter from previous word in next word."
-local menu_index        = 1
-local required_letters  = {}
-local word_obj          = Word:new()
-local tutorial_tbl      = nil
-local starting_pairs    = {
-    { "a", "l" },
-    { "c", "h" },
-    { "e", "d" },
-    { "f", "l" },
-    { "g", "o" },
-    { "i", "h" },
-    { "i", "t" },
-    { "m", "e" },
+local txtPlay = nil
+local txtChain = nil
+local txtDeluxe = nil
+local txtChainInfo = nil
+local chainInfoStr = "The last letter becomes your next word's first letter."
+local txtDeluxeInfo = nil
+local deluxeInfoStr = "Use random letter from previous word in next word."
+local menu_index = 1
+local required_letters = {}
+local word_obj = Word:new()
+local tutorial_tbl = nil
+local starting_pairs = {
+    {"a", "l"},
+    {"c", "h"},
+    {"e", "d"},
+    {"f", "l"},
+    {"g", "o"},
+    {"i", "h"},
+    {"i", "t"},
+    {"m", "e"},
 }
 
-local r_letter_pos      = {
-    { 200, 80 },
-    { 500, 80 },
+local r_letter_pos = {
+    {200, 80},
+    {500, 80},
 }
 
-local TUTORIAL_CHAIN    = {
+local TUTORIAL_CHAIN = {
     "Type a word \n starting with " .. tostring(word_obj:get_value()),
     "Keep going"
 }
 
-local TUTORIAL_DELUXE   = {
+local TUTORIAL_DELUXE = {
     "Type a word",
     "Use this letter \n in next word",
     "Enter next word \n before time goes out",
     "Now use both letters"
 }
 
-local COLORS            = {
+local COLORS = {
     BLACK = "#0a010d",
     BLUE = "#144b66",
     YELLOW = "#ffbf40",
@@ -102,18 +103,18 @@ function set_up_text_objs()
 end
 
 function load_sounds()
-    local Sounds = {}
-    Sounds.click = love.audio.newSource("sound/click.wav", "static")
-    Sounds.click:setVolume(0.7)
+    local _sounds = {}
+    _sounds.click = love.audio.newSource("sound/click.wav", "static")
+    _sounds.click:setVolume(0.7)
 
-    Sounds.correct = love.audio.newSource("sound/correct.wav", "static")
-    Sounds.correct:setVolume(0.2)
+    _sounds.correct = love.audio.newSource("sound/correct.wav", "static")
+    _sounds.correct:setVolume(0.2)
 
-    Sounds.invalid = love.audio.newSource("sound/invalid.wav", "static")
+    _sounds.invalid = love.audio.newSource("sound/invalid.wav", "static")
 
-    Sounds.level_up = love.audio.newSource("sound/level_up.wav", "static")
-    Sounds.erase = love.audio.newSource("sound/erase.wav", "static")
-    return Sounds
+    _sounds.level_up = love.audio.newSource("sound/level_up.wav", "static")
+    _sounds.erase = love.audio.newSource("sound/erase.wav", "static")
+    return _sounds
 end
 
 function love.load()
@@ -191,8 +192,10 @@ function love.keypressed(key, _, isrepeat)
                     play_sound(sounds.erase)
                 end
             else
-                word_obj:backspace()
-                play_sound(sounds.erase)
+                if #word_obj.letters > 0 then
+                    word_obj:backspace()
+                    play_sound(sounds.erase)
+                end
             end
         end
 
@@ -331,9 +334,9 @@ function word_was_good(word)
 end
 
 function get_next_required_letters(word)
-    local word_t = word_to_table(word)
-    word_t = table.shuffle(word_t)
-    required_letters = { word_t[1], word_t[2] }
+    local _word_t = word_to_table(word)
+    _word_t = table.shuffle(word_t)
+    required_letters = {word_t[1], word_t[2]}
 end
 
 function has_value(tab, val)
@@ -391,14 +394,14 @@ function check_word(word)
             word_obj:clear()
         end
     elseif game_mode == "deluxe" then
-        local word_t = word_to_table(word)
-        local bool_tbl = {}
+        local _word_t = word_to_table(word)
+        local _bool_tbl = {}
 
         for _, l in ipairs(required_letters) do
-            table.insert(bool_tbl, table.contains(word_t, l.value))
+            table.insert(_bool_tbl, table.contains(_word_t, l.value))
         end
 
-        if all_true(bool_tbl) then
+        if all_true(_bool_tbl) then
             play_sound(sounds.correct)
             word_was_good(word)
         else
@@ -428,40 +431,40 @@ function clamp(min, val, max)
 end
 
 function get_word_value(word)
-    local value = 0
+    local _value = 0
     for i = 1, #word do
         local letter = string.sub(word, i, i)
         if char_values[letter] ~= nil then
-            value = value + char_values[letter]
+            _value = _value + char_values[letter]
         end
     end
-    return value
+    return _value
 end
 
 function set_draw_color_from_hex(rgba)
     --  where rgba is string as "#336699cc"
-    local rb = tonumber(string.sub(rgba, 2, 3), 16)
-    local gb = tonumber(string.sub(rgba, 4, 5), 16)
-    local bb = tonumber(string.sub(rgba, 6, 7), 16)
-    local ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
-    love.graphics.setColor(love.math.colorFromBytes(rb, gb, bb, ab))
+    local _rb = tonumber(string.sub(rgba, 2, 3), 16)
+    local _gb = tonumber(string.sub(rgba, 4, 5), 16)
+    local _bb = tonumber(string.sub(rgba, 6, 7), 16)
+    local _ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
+    love.graphics.setColor(love.math.colorFromBytes(_rb, _gb, _bb, _ab))
 end
 
 function set_background_fron_hex(rgba)
     --  where rgba is string as "#336699cc"
-    local rb = tonumber(string.sub(rgba, 2, 3), 16)
-    local gb = tonumber(string.sub(rgba, 4, 5), 16)
-    local bb = tonumber(string.sub(rgba, 6, 7), 16)
-    local ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
-    love.graphics.setBackgroundColor(love.math.colorFromBytes(rb, gb, bb, ab))
+    local _rb = tonumber(string.sub(rgba, 2, 3), 16)
+    local _gb = tonumber(string.sub(rgba, 4, 5), 16)
+    local _bb = tonumber(string.sub(rgba, 6, 7), 16)
+    local _ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
+    love.graphics.setBackgroundColor(love.math.colorFromBytes(_rb, _gb, _bb, _ab))
 end
 
 function create_used_word_file()
-    local success, message = love.filesystem.write("used_words.txt", "hello")
-    if success then
+    local _success, _message = love.filesystem.write("used_words.txt", "hello")
+    if _success then
         print('file created')
     else
-        print('file not created: ' .. message)
+        print('file not created: ' .. _message)
     end
 end
 
@@ -480,8 +483,7 @@ function start_game()
         tutorial_tbl = TUTORIAL_DELUXE
         required_letters = {
             Letter:new(_starting_letter[1]),
-            Letter:new(_starting_letter[2])
-        }
+        Letter:new(_starting_letter[2])}
         required_letters[1].x = r_letter_pos[1][1]
         required_letters[1].y = r_letter_pos[1][2]
         required_letters[2].x = r_letter_pos[2][1]
@@ -492,70 +494,60 @@ function start_game()
 end
 
 function table.contains(tbl, x)
-    local found = false
+    local _found = false
     for _, v in pairs(tbl) do
         if v == x then
-            found = true
+            _found = true
         end
     end
-    return found
+    return _found
 end
 
 function word_to_table(word)
-    local t = {}
+    local _t = {}
     for i = 1, #word do
-        t[i] = word:sub(i, i)
+        _t[i] = word:sub(i, i)
     end
-    return t
-end
-
-function setColorHEX(rgba)
-    --	setColorHEX(rgba)
-    --	where rgba is string as "#336699cc"
-    local rb = tonumber(string.sub(rgba, 2, 3), 16)
-    local gb = tonumber(string.sub(rgba, 4, 5), 16)
-    local bb = tonumber(string.sub(rgba, 6, 7), 16)
-    local ab = tonumber(string.sub(rgba, 8, 9), 16) or nil
-    --	print (rb, gb, bb, ab) -- prints 	51	102	153	204
-    --	print (love.math.colorFromBytes( rb, gb, bb, ab )) -- prints	0.2	0.4	0.6	0.8
-    love.graphics.setColor(love.math.colorFromBytes(rb, gb, bb, ab))
+    return _t
 end
 
 function table.shuffle(t)
-    local tbl = {}
+    local _tbl = {}
     for i = 1, #t do
-        tbl[i] = t[i]
+        _tbl[i] = t[i]
     end
-    for i = #tbl, 2, -1 do
-        local j = math.random(i)
-        tbl[i], tbl[j] = tbl[j], tbl[i]
+    for i = #_tbl, 2, -1 do
+        local _j = math.random(i)
+        _tbl[i], _tbl[_j] = _tbl[_j], _tbl[i]
     end
-    return tbl
+    return _tbl
 end
 
 function table.copy(t)
-    local u = {}
-    for k, v in pairs(t) do u[k] = v end
-    return setmetatable(u, getmetatable(t))
+    local _u = {}
+    for k, v in pairs(t) do
+        _u[k] = v
+    end
+    return setmetatable(_u, getmetatable(t))
 end
 
 function shuffle(arr)
     for i = 1, #arr - 1 do
-        local j = math.random(i, #arr)
-        arr[i], arr[j] = arr[j], arr[i]
+        local _j = math.random(i, #arr)
+        arr[i], arr[_j] = arr[_j], arr[i]
     end
 end
 
 function shuffled_range_take(n, a, b)
-    local numbers = {}
+    local _numbers = {}
     for i = a, b do
-        numbers[i] = i
+        _numbers[i] = i
     end
-    shuffle(numbers)
+    shuffle(_numbers)
 
-    local take = {}
+    local _take = {}
     for i = 1, n do
-        take[i] = numbers[i]
+        _take[i] = _numbers[i]
     end
-    return take
+    return _take
 end
