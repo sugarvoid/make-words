@@ -112,7 +112,6 @@ function load_sounds()
 
     _sounds.invalid = love.audio.newSource("sound/invalid.wav", "static")
 
-    _sounds.level_up = love.audio.newSource("sound/level_up.wav", "static")
     _sounds.erase = love.audio.newSource("sound/erase.wav", "static")
     return _sounds
 end
