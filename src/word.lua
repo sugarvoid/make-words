@@ -1,5 +1,3 @@
-local screen_width, _ = love.graphics.getDimensions()
-
 
 Word = {}
 Word.__index = Word
@@ -9,16 +7,12 @@ function Word:new()
     _d_word.letters = {}
     _d_word.x = 250
     _d_word.y = 250
-    _d_word.position = {x=0, y=-200}
+    _d_word.position = {x = 0, y = -200}
     _d_word.ox = 30
     _d_word.oy = 30
     _d_word.rot = math.rad(0)
-    _d_word.starting_pos = {x=0, y=0}
+    _d_word.starting_pos = {x = 0, y = 0}
     return _d_word
-end
-
-function Word:update(dt, mx, my)
-
 end
 
 function Word:clear()
@@ -36,20 +30,19 @@ function Word:get_value()
 end
 
 function Word:add_part(str)
-    local _last_part = nil
+    local _last_letter = nil
     local _next_index = nil
-    local new_part = nil
+    local _new_letter = nil
     if #self.letters > 0 then
-        _last_part = self.letters[#self.letters] or 1
+        _last_letter = self.letters[#self.letters] or 1
         _next_index = #self.letters + 1
-        new_part = Letter:new(str, _last_part)
+        _new_letter = Letter:new(str, _last_letter)
     else
-        new_part = Letter:new(str, _last_part)
-        new_part.x = self.x
+        _new_letter = Letter:new(str, _last_letter)
+        _new_letter.x = self.x
     end
-    new_part.y = self.y
-    table.insert(self.letters, new_part)
-    --print("word got a new letter: " .. str )
+    _new_letter.y = self.y
+    table.insert(self.letters, _new_letter)
 end
 
 function Word:move(new_x, new_y)
@@ -57,20 +50,12 @@ function Word:move(new_x, new_y)
     self.position.y = new_y
 end
 
-
-function Word:backspace()
-   --print("backspace")
-   local last = #self.letters
-   table.remove(self.letters)
-   --print(#self.letters)
+function Word:remove_last_letter()
+    table.remove(self.letters)
 end
 
 function Word:draw()
     for _, p in ipairs(self.letters) do
         p:draw()
     end
-end
-
-function Word:reset()
-
 end

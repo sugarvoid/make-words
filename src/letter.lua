@@ -16,7 +16,7 @@ function Letter:new(str, prev_letter)
 end
 
 function Letter:move_to(pos)
-    flux.to(self, 1, { x = pos[1], y = pos[2] }):ease("backinout")
+    flux.to(self, 1, {x = pos[1], y = pos[2]}):ease("backinout")
 end
 
 function Letter:draw()

@@ -1,7 +1,5 @@
--- Used only for displaying words on the game over screen. 
+-- Used only for displaying words on the game over screen.
 
-
-local screen_width, _ = love.graphics.getDimensions()
 local scroll_speed = 30
 
 DisplayWord = {}

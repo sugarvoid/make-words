@@ -132,7 +132,6 @@ function love.load()
     entered_words = 0
     lives = MAX_LIVES
     sounds = load_sounds()
-    word_obj:reset()
 end
 
 function get_first_letter()
@@ -188,12 +187,12 @@ function love.keypressed(key, _, isrepeat)
         if key == "backspace" then
             if game_mode == "chain" then
                 if #word_obj.letters > 1 then
-                    word_obj:backspace()
+                    word_obj:remove_last_letter()
                     play_sound(sounds.erase)
                 end
             else
                 if #word_obj.letters > 0 then
-                    word_obj:backspace()
+                    word_obj:remove_last_letter()
                     play_sound(sounds.erase)
                 end
             end
