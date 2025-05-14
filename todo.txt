@@ -1,0 +1,4 @@
+
+
+Flash "repeat word" warning
+Make "Esc" go back to main

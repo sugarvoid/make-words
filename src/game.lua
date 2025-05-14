@@ -316,7 +316,9 @@ function word_was_good(word)
     table.insert(word_history, word)
     if game_mode == "chain" then
         local next_starting_letter = word_obj.letters[#word_obj.letters].value
+        word_obj:move_last_letter()
         word_obj:clear()
+        
         word_obj:add_part(next_starting_letter)
     elseif game_mode == "deluxe" then
         local _options = shuffled_range_take(2, 1, #word_obj.letters)

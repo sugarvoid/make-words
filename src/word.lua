@@ -59,3 +59,8 @@ function Word:draw()
         p:draw()
     end
 end
+
+function Word:move_last_letter()
+    local _last_letter = Letter:new(self.letters[#self.letters].value)
+    _last_letter:move_to({x=self.x, y=self.y})
+end

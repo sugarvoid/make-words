@@ -1,4 +1,4 @@
--- Used only for displaying words on the game over screen.
+-- USED ONLY FOR DISPLAYING WORDS ON THE GAME OVER SCREEN.
 
 local scroll_speed = 30
 
